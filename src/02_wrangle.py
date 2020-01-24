@@ -1,3 +1,6 @@
+# author: Ofer Mansour, Jacky Ho, Anand Vemparala
+# date: 2020-01-23
+
 '''
 Split the data into train and test after removing columns not required and imputing data.
 

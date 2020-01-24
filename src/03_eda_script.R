@@ -1,5 +1,5 @@
-# author: Tiffany Timbers
-# date: 2020-01-15
+# author: Ofer Mansour, Jacky Ho, Anand Vemparala
+# date: 2020-01-23
 
 "This script prints out docopt args.
 
