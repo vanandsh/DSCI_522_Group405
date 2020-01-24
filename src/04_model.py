@@ -128,10 +128,6 @@ def average_ensemble_models(models, X):
     
 def save_ensemble_residual_graphs(save_to, models, X, y):
   
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-    print(y)
-    print(models)
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     ensemble_residual_df = pd.DataFrame({
       'true_price': y,
       'average_ensemble_residual': y - average_ensemble_models(models, X)
