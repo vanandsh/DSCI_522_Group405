@@ -1,5 +1,7 @@
 '''
-Download and save a csv file to a target location
+Train an average ensemble model based on a Random Forest regressor model,
+a XGBoost regressor model and a LightGBM model with a set train and test data.
+Then, output the results in charts and tables
 
 Usage: modelling.py --train_location=<train_path> --test_location=<test_path> --output_location=<out_path>
 
