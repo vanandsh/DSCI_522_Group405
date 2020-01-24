@@ -30,9 +30,7 @@ def main(source_file, target_location):
   X = airbnb_ny.drop(['price'], axis=1)
   y = airbnb_ny.price
   
-  # split to test a
-  
-  nd train
+  # split to test and train
   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state = 1)
   
   # combine X and y for test and train respectively
@@ -43,7 +41,7 @@ def main(source_file, target_location):
   train_file = opt["--target_location"] + "/train.csv"
   test_file = opt["--target_location"] + "/test.csv"
   
-  full_train.to_csv(train_file)
+  full_train.to_csv(train_file,header=True, index=False)
   full_test.to_csv(test_file)
   
 if __name__ == "__main__":
