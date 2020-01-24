@@ -3,8 +3,7 @@ Train an average ensemble model based on a Random Forest regressor model,
 a XGBoost regressor model and a LightGBM model with a set train and test data.
 Then, output the results in charts and tables
 
-Usage: modelling.py --train_location=<train_path> --test_location=<test_path> --output_location=<out_path>
-
+Usage: modelling.py
 '''
 
 import requests
@@ -79,7 +78,7 @@ def train_base_models(X_train, y_train):
     for model_name in model_map.keys():
         model = GridSearchCV(
           estimator=model_map[model_name],
-          param_grid=tuning_parameter_map[model_map],
+          param_grid=tuning_parameter_map[model_name],
           cv=4,
           verbose=2,
           n_jobs=-1,
@@ -199,4 +198,4 @@ def main(train_path, test_path, out_path):
     save_model_performance_table(models, X_test, y_test)
 
 if __name__ == "__main__":
-    main(opt["--train_path"], opt["--test_path"], opt['--out_path'])
+    main('./training_data.csv', './testing_data.csv', '.')
