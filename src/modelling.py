@@ -57,7 +57,7 @@ model_map = {
     'lightGBM': LGBMRegressor(random_state=random_state)
 }
 
-def prepossess(full_train, full_test):
+def preprocess(full_train, full_test):
     X_train = full_train.drop(['price'], axis=1)
     y_train = full_train['price']
     X_test = full_test.drop(['price'], axis=1)
@@ -68,6 +68,8 @@ def prepossess(full_train, full_test):
       le.fit(X_train[feature])
       X_train[feature] = le.transform(X_train[feature])
       X_test[feature] = le.transform(X_test[feature])
+
+    print('Data preprocessed!')
 
     return [X_train, y_train, X_test, y_test]
 
@@ -90,7 +92,7 @@ def train_base_models(X_train, y_train):
             model.fit(X_train, y_train, eval_metric='l1')
         elif model_name == 'xgboost':
             model.fit(X_train, y_train, eval_metric='mae')
-        else
+        else:
             model.fit(X_train, y_train)
 
         models.append(model)
@@ -190,7 +192,7 @@ def main(train_path, test_path, out_path):
     full_train = pd.read_csv(train_path, index_col=0)
     full_test = pd.read_csv(test_path, index_col=0)
 
-    X_train, y_train, X_test, y_test = prepossess(full_train, full_test)
+    X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
     models = train_base_models(X_train, y_train)
     save_ensemble_residual_graphs(models, X_test, y_test)
     save_feature_importance_table(models, X_test.columns)
