@@ -1,7 +1,7 @@
 '''
 Download and save a csv file to a target location
 
-Usage: modelling.py --train_location=<train_path> --test_location=<test_path>
+Usage: modelling.py --train_location=<train_path> --test_location=<test_path> --output_location=<out_path>
 
 '''
 
@@ -16,6 +16,9 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import GridSearchCV
 from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import LabelEncoder
+import altair as alt
+
+alt.data_transformers.enable('json')
 
 opt = docopt(__doc__)
 
@@ -79,6 +82,8 @@ def train_base_models(X_train, y_train):
           scoring='neg_mean_absolute_error'
         )
 
+        print('Training ' + model_name + ' regressor')
+
         if model_name == 'lightGBM':
             model.fit(X_train, y_train, eval_metric='l1')
         elif model_name == 'xgboost':
@@ -102,7 +107,9 @@ def save_ensemble_residual_graphs(models, X, y):
       'average_ensemble_residual': y - average_ensemble_models(models, X)
     })
 
-    alt.Chart(ensemble_residual_df).mark_circle(size=30, opacity=0.4).encode(
+    residual_chart = alt.Chart(
+        ensemble_residual_df
+    ).mark_circle(size=30, opacity=0.4).encode(
       x=alt.X('true_price', title='Price'),
       y=alt.Y('average_ensemble_residual', title='Average ensembling residual')
     ).properties(
@@ -112,7 +119,7 @@ def save_ensemble_residual_graphs(models, X, y):
       title='Average Ensembling Residuals on Test Data'
     )
 
-    alt.Chart(ensemble_residual_df).mark_bar().encode(
+    residual_dist_chart = alt.Chart(ensemble_residual_df).mark_bar().encode(
       x=alt.X(
         'average_ensemble_residual',
         title='Average ensembling residual',
@@ -126,6 +133,14 @@ def save_ensemble_residual_graphs(models, X, y):
       title='Ensembling Residual Distribution'
     )
 
+    with alt.data_transformers.enable('default'):
+        residual_chart.save(
+            out_path + '/ensemble_residual_plot.png'
+        )
+        residual_dist_chart.save(
+            out_path + '/ensemble_residual_distribution.png'
+        )
+
 def save_feature_importance_table(models, columns):
     feature_important_df = pd.DataFrame({
       'Random Forest': models[0].feature_importances_,
@@ -138,6 +153,10 @@ def save_feature_importance_table(models, columns):
     })
 
     feature_important_df.index = columns
+
+    feature_important_df.to_csv(
+        out_path + '/feature_importance_table.csv'
+    )
 
 def save_model_performance_table(models, X, y):
     test_mean_absolute_error_df = pd.DataFrame({
@@ -161,7 +180,11 @@ def save_model_performance_table(models, X, y):
         'Average Ensembling'
     ]
 
-def main(train_path, test_path):
+    test_mean_absolute_error_df.to_csv(
+        out_path + '/mean_absolute_error_table.csv'
+    )
+
+def main(train_path, test_path, out_path):
     full_train = pd.read_csv(train_path, index_col=0)
     full_test = pd.read_csv(test_path, index_col=0)
 
@@ -172,4 +195,4 @@ def main(train_path, test_path):
     save_model_performance_table(models, X_test, y_test)
 
 if __name__ == "__main__":
-    main(opt["--url"], opt["--file_location"])
+    main(opt["--train_path"], opt["--test_path"], opt['--out_path'])
