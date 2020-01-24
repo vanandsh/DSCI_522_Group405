@@ -100,11 +100,11 @@ def train_base_models(X_train, y_train):
 
 def average_ensemble_models(models, X):
     return np.average(
-        map(lambda x: x.predict(X), models),
+        list(map(lambda x: x.predict(X), models)),
         axis=0
     )
 
-def save_ensemble_residual_graphs(models, X, y):
+def save_ensemble_residual_graphs(models, X, y, out_path):
     ensemble_residual_df = pd.DataFrame({
       'true_price': y,
       'average_ensemble_residual': y - average_ensemble_models(models, X)
@@ -144,10 +144,12 @@ def save_ensemble_residual_graphs(models, X, y):
             out_path + '/ensemble_residual_distribution.png'
         )
 
-def save_feature_importance_table(models, columns):
+def save_feature_importance_table(models, columns, out_path):
     feature_important_df = pd.DataFrame({
-      'Random Forest': models[0].feature_importances_,
-      'XGBoost': models[1].feature_importances_,
+      'Random Forest':
+          models[0].best_estimator_.feature_importances_,
+      'XGBoost':
+          models[1].best_estimator_.feature_importances_,
       'LightGBM': (
           models[2].best_estimator_.feature_importances_/sum(
               models[2].best_estimator_.feature_importances_
@@ -161,7 +163,7 @@ def save_feature_importance_table(models, columns):
         out_path + '/feature_importance_table.csv'
     )
 
-def save_model_performance_table(models, X, y):
+def save_model_performance_table(models, X, y, out_path):
     test_mean_absolute_error_df = pd.DataFrame({
       'mean_absolute_error': [
         mean_absolute_error(
@@ -176,7 +178,7 @@ def save_model_performance_table(models, X, y):
     })
 
     test_mean_absolute_error_df.index = [
-        'Median Null Model'
+        'Median Null Model',
         'Random Forest',
         'XGBoost',
         'LightGBM',
@@ -193,9 +195,9 @@ def main(train_path, test_path, out_path):
 
     X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
     models = train_base_models(X_train, y_train)
-    save_ensemble_residual_graphs(models, X_test, y_test)
-    save_feature_importance_table(models, X_test.columns)
-    save_model_performance_table(models, X_test, y_test)
+    save_ensemble_residual_graphs(models, X_test, y_test, out_path)
+    save_feature_importance_table(models, X_test.columns, out_path)
+    save_model_performance_table(models, X_test, y_test, out_path)
 
 if __name__ == "__main__":
     main('./training_data.csv', './testing_data.csv', '.')
