@@ -3,7 +3,7 @@
 
 "This script prints out docopt args.
 
-Usage: generate_plots_figures.R --source_file=<source_file> --target_location=<target_location> 
+Usage: 03_eda_script.R --source_file=<source_file> --target_location=<target_location> 
 
 Options:
 --source_file=<source_file>     Takes a path/filename pointing to the data
