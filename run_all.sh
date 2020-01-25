@@ -5,3 +5,5 @@ python src/wrangle.py --source_file_location="./data/raw_data.csv" --target_loca
 Rscript.exe src/eda_script.R --source_file="./data/train.csv" --target_location="./results"
 
 python src/model.py --source_file_location="./data" --target_location="./results"
+
+Rscript src/knit_rmd.R --source_file="./doc/final_report.Rmd"

@@ -26,8 +26,8 @@ main <- function(input, output) {
     select(-neighbourhood_group, -neighbourhood, -room_type, -latitude, -longitude )  %>%
     rename(no_host_listgs = calculated_host_listings_count )  %>%
     ggpairs() +
-    theme(strip.text.x = element_text(size = 9),
-          strip.text.y = element_text(size = 9),
+    theme(strip.text.x = element_text(size = 8),
+          strip.text.y = element_text(size = 8),
           axis.text.x = element_text(angle=90))
 
   # save plot (change file path/name if necessary)

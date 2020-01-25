@@ -1,16 +1,71 @@
+
 # New York Airbnb Price Predictor
 
-## Proposal
+  - authors: Ofer Mansour, Jacky Ho, Anand Vemparala
 
-For this data analysis, we would like to look at the Airbnb listings of New York City in 2019. This data set can either be retrieved from this Kaggle [page](https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data) or directly from the Airbnb data [site](http://insideairbnb.com/get-the-data.html).
+## About
 
-We aim to investigate what would be the appropriate or comparable price for a future Airbnb listing in the same city in 2020, given the same set of listing features from the dataset. We want to know the prediction interval of that price as well. Through this predictive investigation, we also expect to explore what are the strongest predictors for price, what features are irrelevant, and what pertinent new features we can derive from the given predictors. All questions are predictive.
+In this project, our team attempted to predict Airbnb prices in New
+York, using a [dataset](http://insideairbnb.com/get-the-data.html)(“Get
+the Data - Inside Airbnb. Adding Data to the Debate.” n.d.) of all
+listings in 2019. The dataset includes 48,895 listings and includes
+several features, such as the price of the listing, neighbourhood, room
+type and number of reviews. To find the best performing prediction
+model, we tested several tree-based models: Random Forest, XGBoost,
+LightGBM and an average ensembling of the three models.
 
-We will analyze the data by visualizing, building various models, and doing ensembling. We will visualize the relationships different features' relationships with price and check their correlations as well as distributions. In terms of modelling, we aim to train and tune different models, such as linear regression, random forest, and boosted trees, on the dataset. We may do stacking with all the models at the end to get a more accurate prediction. During the modelling phase, we also want to understand and compare feature importance in different models.
+## Report
 
-In terms of visualization, we will do a correlation table, a correlation heatmap, and a pair-wise plot with all the features to understand their relationships with each other from different angles. Doing this will give us an idea of how the predictive models will end up looking in terms of how different predictors influence them. Since we may do linear regression, this process will allow us to investigate multicollinearity, predictor distribution, and linear relationships with price, which relate to assumptions of linear regression. For summarizing our results, we will make a table showing feature importance with different models as well as their residual plots.
+The final report can be found here **will add link**
 
-We will present our model results in different ways. As mentioned above, we will do a residual plot comparison from our models and a table showing different feature importance. Furthermore, we will dive into the statistical significance of the feature coefficients for linear regression and display the prediction intervals.
+## Usage
 
-## Exploratory Data Analysis
-[EDA Report](https://github.com/UBC-MDS/DSCI_522_Group405/blob/master/doc/EDA_report.ipynb)
+To replicate this project, clone this GitHub repository, install the
+dependencies and run the commands below at the command line or terminal
+from the root directory of this project:
+
+    # download dataset
+    python src/data_download.py --url="https://raw.githubusercontent.com/vanandsh/datasets/master/AB_NYC_2019.csv" --file_location="./data/raw_data.csv"
+    
+    # wrangle data 
+    python src/wrangle.py --source_file_location="./data/raw_data.csv" --target_location="./data"
+    
+    # run eda 
+    Rscript.exe src/eda_script.R --source_file="./data/train.csv" --target_location="./results"
+    
+    # run model
+    python src/model.py --source_file_location="./data" --target_location="./results"
+    
+    # knit final report
+    Rscript src/knit_rmd.R --source_file="./doc/final_report.Rmd"
+
+## Dependencies
+
+  - Python and Python Packages
+      - docopt
+      - requests
+      - pandas
+      - numpy
+      - sklearn
+      - lightgbm
+      - xgboost
+      - altair
+  - R
+      - docopt
+      - tidyverse
+      - GGally
+      - gridExtra
+      - knitr
+
+# References
+
+<div id="refs" class="references">
+
+<div id="ref-GettheDa10:online">
+
+“Get the Data - Inside Airbnb. Adding Data to the Debate.” n.d.
+<http://insideairbnb.com/get-the-data.html>.
+
+</div>
+
+</div>
