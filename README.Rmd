@@ -54,6 +54,7 @@ Rscript src/knit_rmd.R --source_file="./doc/final_report.Rmd"
   - xgboost
   - altair
   - os
+  - schema
 - R
   - docopt
   - tidyverse

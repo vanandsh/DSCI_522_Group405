@@ -1,7 +1,7 @@
 # author: Ofer Mansour, Jacky Ho, Anand Vemparala
 # date: 2020-01-23
 
-"This script prints out docopt args.
+"This script runs eda to create plots and tables. 
 
 Usage: eda_script.R --source_file=<source_file> --target_location=<target_location> 
 
@@ -19,6 +19,10 @@ library(gridExtra)
 
 main <- function(input, output) {
   
+  # test to check that csv is inputted 
+  if (substr(input, (nchar(input)+1)-3 ,nchar(input)) != "csv"){
+    stop("Must input an Rmd file")
+  }
   training_data  <- read_csv(input)
   
   # Correlation plot

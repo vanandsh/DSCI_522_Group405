@@ -624,7 +624,8 @@ body {
 <li>minimum_nights</li>
 <li>neighbourhood</li>
 <li>neighbourhood_group</li>
-<li>number_of_reviews = price (response variable)</li>
+<li>number_of_reviews</li>
+<li>price (response variable)</li>
 <li>reviews_per_month</li>
 <li>room_type</li>
 <li>last_review</li>
@@ -879,6 +880,9 @@ Figure 5. Distribution of residuals average ensembling
 <p><br><br> The residuals look to follow a normal distribution with a few big residuals spread along the high prices. We do not quite care about those big residuals over high prices because we intend our model to estimate the median. In particular, we do not want our model to be affected or swayed by high prices by too much since pulling the predictions towards that direction will hinder the listings’ ability to get bookings quickly and hence discourage new hosts from maintaining those listings. In conclusion, we believe our ensemble has done its job effectively.</p>
 <h1 id="limitations">Limitations</h1>
 <p>Our project has a few limitations. First, the data we have does not capture the season and months of the year. There could be a high correlation between the prices and the season of the year. In particular seasons and holidays, we can expect tourist inflows to be much higher than normal thereby inflating the listing prices. As well, the prices of Airbnb listings fluctuate throughout the year, which is not captured and limits us from probing into this further. Finally, a rating feature would have helped our models to predict the prices better. In the dataset we are using, we do have reviews but it would require us to do sentiment analysis on each review to get a pulse of how the Airbnb listing compares to others.</p>
+<p>There are some limitations to our models as well. Due to our time constraint and long training time with random forest as well as xgboost, we could not cover a more extended range of hyperparameters, which could result in better models. Also, since interpretation is not an emphasis in our result, we could go for a more complicated but powerful ensembling technique, such as stacking. Moreover, we did not create any new feature which could potentially improve predictions. For instance, we could turn the last_review feature into a new feature for days since the last review.</p>
+<h1 id="potential-future-improvements">Potential future improvements</h1>
+<p>If this project were to continue, we had a few upgrades in mind in terms of data analysis and modeling. Regarding data analysis, we would want to look at some new features we can generate, such as days before the last review and whether a listing has low availability. We will explore whether they have distinct patterns on prices and form our expectations about their respective importances. We could potentially take them into account for our models and explore other ensembling techniques, such as stacking, to see if we could arrive at more accurate predictions.</p>
 <h1 id="references">References</h1>
 <div id="refs" class="references">
 
@@ -915,6 +919,11 @@ Figure 5. Distribution of residuals average ensembling
 <div id="ref-docoptpython">
 
 <p>Keleshev, Vladimir. 2014. <em>Docopt: Command-Line Interface Description Language</em>. <a href="https://github.com/docopt/docopt">https://github.com/docopt/docopt</a>.</p>
+</div>
+
+<div id="ref-schema">
+
+<p>———. 2019. <em>Schema: Validating Python Data Structures</em>. <a href="https://github.com/keleshev/schema">https://github.com/keleshev/schema</a>.</p>
 </div>
 
 <div id="ref-mcgeehan_2018">
