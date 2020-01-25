@@ -1,3 +1,6 @@
+# author: Ofer Mansour, Jacky Ho, Anand Vemparala
+# date: 2020-01-23
+
 '''
 Download and save a csv file to a target location
 
