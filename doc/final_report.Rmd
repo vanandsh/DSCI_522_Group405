@@ -79,8 +79,12 @@ knitr::include_graphics('../results/plots/categorical-plots.png')
 ```
 Figure 3. Mean New York Airbnb prices per night based by room type and neighbourhood group in 2019
 
+The mean price per night per night based by room type is as we would have expected. The prices of the entire home/apts is higher than private room followed by  shared accomodations. 
 
-We summarize the differences in a room type in a certain neighbourhood group same in a table where the number of listings, the mean price per night and the maximum price per night are shown. 
+From the different neighbourhoods, Manhattan is the most expensive one and Bronx has the lowest rates. The neighbourhood group and type of room will be important features in predicting price.
+
+We summarize the differences in a room type in a certain neighbourhood group in a table where the number of listings, the mean price per night and the maximum price per night are shown. 
+
 
 ```{r summary-table, echo=FALSE, message=FALSE}
 table_1 <- read_csv("../results/tables/summary-table.csv")
