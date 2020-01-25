@@ -6,7 +6,7 @@ Train an average ensemble model based on a Random Forest regressor model,
 a XGBoost regressor model and a LightGBM model with a set train and test data.
 Then, output the results in charts and tables
 
-Usage: 04_model.py --source_file_location=<source_file_location> --target_location=<target_location>
+Usage: model.py --source_file_location=<source_file_location> --target_location=<target_location>
 
 source_file_location - a path/filename pointing to the data to be read in
 target_location - a path/filename prefix where to write the figure(s)/table(s) to and what to call it

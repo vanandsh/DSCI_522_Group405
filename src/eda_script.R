@@ -3,7 +3,7 @@
 
 "This script prints out docopt args.
 
-Usage: 03_eda_script.R --source_file=<source_file> --target_location=<target_location> 
+Usage: eda_script.R --source_file=<source_file> --target_location=<target_location> 
 
 Options:
 --source_file=<source_file>     Takes a path/filename pointing to the data
