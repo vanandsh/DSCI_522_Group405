@@ -15,6 +15,7 @@ import pandas as pd
 import numpy as np
 from docopt import docopt
 from sklearn.model_selection import train_test_split
+import os.path
 
 
 opt = docopt(__doc__)
@@ -47,10 +48,23 @@ def main(source_file, target_location):
   full_train.to_csv(train_file,header=True, index=False)
   full_test.to_csv(test_file)
   
-if __name__ == "__main__":
+def are_files_created(filedirectory):
+        
+    train_file = filedirectory + "/train.csv"
+    test_file = filedirectory + "/test.csv"
+    
+    if os.path.isfile(train_file) and os.path.isfile(test_file):
+        return True
+    else:
+        return False
+        
+def test_file_created():
+    filedirectory = opt['--target_location']
+    assert are_files_created(filedirectory) == True, "Training and testing files were not generated, please try again"
+       
   
-  # source_file = "../data/raw_data.csv"
+if __name__ == "__main__":
   source_file = opt["--source_file_location"]
-  # target_location = "../data"
   target_location = opt["--target_location"]
   main(source_file, target_location)
+  test_file_created()
