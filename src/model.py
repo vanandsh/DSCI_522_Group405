@@ -55,28 +55,11 @@ tuning_parameter_map = {
     }
 }
 
-# Minimized hyperparameters for testing 
-# 
-# tuning_parameter_map = {
-#     'random_forest': {
-#       'max_depth': [10],
-#       'criterion': ['mse']
-#     },
-#     'xgboost': {
-#       'max_depth': [5]
-#     },
-#     'lightGBM': {
-#       'max_depth': [15]
-#     }
-# }
-
-
 model_map = {
     'random_forest': RandomForestRegressor(),
     'xgboost': XGBRegressor(),
     'lightGBM': LGBMRegressor()
 }
-
 
 opt = docopt(__doc__)
 
@@ -103,8 +86,7 @@ def train_base_models(X_train, y_train):
         model = GridSearchCV(
           estimator=model_map[model_name],
           param_grid=tuning_parameter_map[model_name],
-          # cv=4,
-          cv=2,
+          cv=4,
           verbose=2,
           n_jobs=-1,
           scoring='neg_mean_absolute_error'
@@ -121,16 +103,15 @@ def train_base_models(X_train, y_train):
 
         models.append(model)
 
-    return models 
-    
+    return models
+
 def average_ensemble_models(models, X):
     return np.average(
         list(map(lambda x: x.predict(X), models)),
         axis=0
     )
-    
+
 def save_ensemble_residual_graphs(save_to, models, X, y):
-  
     ensemble_residual_df = pd.DataFrame({
       'true_price': y,
       'average_ensemble_residual': y - average_ensemble_models(models, X)
@@ -169,6 +150,7 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
         residual_dist_chart.save(
             save_to + '/ensemble_residual_distribution.png'
         )
+
 def save_feature_importance_table(save_to, models, columns):
     feature_important_df = pd.DataFrame({
       'Random Forest':
@@ -217,13 +199,12 @@ def save_model_performance_table(save_to, models, X, y):
 
 
 def main(source_file_location, target_location):
-  
   train_file = source_file_location + "/train.csv"
   test_file = source_file_location + "/test.csv"
-  
+
   results_plots_folder = target_location + "/plots"
   results_tables_folder = target_location + "/tables"
-  
+
   full_train = pd.read_csv(train_file)
   full_test = pd.read_csv(test_file, index_col=0)
 
@@ -232,6 +213,5 @@ def main(source_file_location, target_location):
   save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
   save_feature_importance_table(results_tables_folder, models, X_test.columns)
   save_model_performance_table(results_tables_folder, models, X_test, y_test)
-  
 
 main(opt['--source_file_location'], opt['--target_location'])
