@@ -1,4 +1,4 @@
-# python src/data_download.py --url="https://raw.githubusercontent.com/vanandsh/datasets/master/AB_NYC_2019.csv" --file_location="./data/raw_data.csv"
+python src/data_download.py --url="https://raw.githubusercontent.com/vanandsh/datasets/master/AB_NYC_2019.csv" --file_location="./data/raw_data.csv"
 
 python src/wrangle.py --source_file_location="./data/raw_data.csv" --target_location="./data"
 

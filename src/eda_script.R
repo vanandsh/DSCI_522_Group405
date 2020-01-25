@@ -14,7 +14,6 @@ Options:
 
 library(docopt)
 library(tidyverse)
-library(reshape2)
 library(GGally)
 library(gridExtra)
 
@@ -33,7 +32,7 @@ main <- function(input, output) {
 
   # save plot (change file path/name if necessary)
   # ggsave('results/plots/01_corr-plot.png', plot = corr_plot)
-  save_to = paste0(output,"/plots/01_corr-plot.png")
+  save_to = paste0(output,"/plots/corr-plot.png")
   ggsave(save_to, plot = corr_plot)
   
   # price distribution
@@ -43,7 +42,7 @@ main <- function(input, output) {
     theme(plot.title = element_text(hjust = 0.5))
   
   # save plot
-  save_to = paste0(output,"/plots/02_price-dist.png")
+  save_to = paste0(output,"/plots/price-dist.png")
   ggsave(save_to, plot = price_dist)
   
   ##### Categorical Plots ##########
@@ -76,7 +75,7 @@ main <- function(input, output) {
   categorical_plots <- arrangeGrob(room_price, neighb_price, ncol=2)
   # save plot
   
-  save_to = paste0(output,"/plots/03_categorical-plots.png")
+  save_to = paste0(output,"/plots/categorical-plots.png")
   ggsave(save_to, plot = categorical_plots, width = 9, height = 6)
   
   # Summary table for neighb group, room and price
@@ -92,7 +91,7 @@ main <- function(input, output) {
            `Max Price per Night` = Max_Price)
   
   
-  save_to = paste0(output,"/tables/01_summary-table.csv")
+  save_to = paste0(output,"/tables/summary-table.csv")
   write.csv(summary_table, file = save_to,  row.names = FALSE)
 
 }
