@@ -34,7 +34,7 @@ set their prices correctly.
 The dataset used in this project is about Airbnb listings in New York in
 2019. The Airbnb listing data is from[Inside
 Airbnb](http://insideairbnb.com/get-the-data.html)(“Get the Data -
-Inside Airbnb. Adding Data to the Debate.” n.d.), which as compiled from
+Inside Airbnb. Adding Data to the Debate.” n.d.), which is compiled from
 Airbnb’s website. Each of the 48,895 rows represents an Airbnb listing,
 which includes several features, such as the price of the listing,
 neighbourhood, room type and the number of reviews.
