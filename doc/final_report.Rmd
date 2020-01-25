@@ -26,7 +26,7 @@ We aim to investigate what would be the appropriate or comparable price for a fu
 
 # Data
 
-The dataset used in this project is about Airbnb listings in New York in 2019. The Airbnb listing data is from[Inside Airbnb](http://insideairbnb.com/get-the-data.html)[@GettheDa10:online], which as compiled from Airbnb's website. Each of the 48,895  rows represents an Airbnb listing, which includes several features, such as the price of the listing, neighbourhood, room type and the number of reviews. 
+The dataset used in this project is about Airbnb listings in New York in 2019. The Airbnb listing data is from[Inside Airbnb](http://insideairbnb.com/get-the-data.html)[@GettheDa10:online], which is compiled from Airbnb's website. Each of the 48,895  rows represents an Airbnb listing, which includes several features, such as the price of the listing, neighbourhood, room type and the number of reviews. 
 
 # EDA
 
