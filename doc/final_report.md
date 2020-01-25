@@ -2,6 +2,16 @@ New York Airbnb Price Prediction 2019
 ================
 Ofer Mansour, Jacky Ho, Anand Vemparala
 
+  - [Summary](#summary)
+  - [Introduction](#introduction)
+  - [Data](#data)
+  - [EDA](#eda)
+  - [Our chosen models, metric and
+    why](#our-chosen-models-metric-and-why)
+  - [Our modelling result](#our-modelling-result)
+  - [Limitations](#limitations)
+  - [References](#references)
+
 # Summary
 
 In this project, our team attempted to predict Airbnb prices in New York
@@ -71,8 +81,8 @@ To understand how strongly the remaining features are correlated to the
 price of a listing, we generated a correlation plot for all numerical
 features.
 
-<img src="../results/plots/corr-plot.png" width="2100" /> Figure 1.
-Correlation and distribution plots for numerical features
+![](../results/plots/corr-plot.png)<!-- --> Figure 1. Correlation and
+distribution plots for numerical features
 
 We observe that no individual predictor by itself is highly correlated
 to price.
@@ -82,20 +92,27 @@ general sense of the prices in all neighbourhoods of New York. There is
 an outlier that stands at $10,000. Other than this outlier, all prices
 are mostly less than $1000, with an average of $152 per night.
 
-<img src="../results/plots/price-dist.png" width="2100" /> Figure 2.
-Distribution of New York Airbnb prices per night in 2019
+![](../results/plots/price-dist.png)<!-- --> Figure 2. Distribution of
+New York Airbnb prices per night in 2019
 
 To understand the categorical features, we grouped the prices per night
 of the Airbnb listings based on the neighbourhood and the room type.
 
-<img src="../results/plots/categorical-plots.png" width="2700" /> Figure
-3. Mean New York Airbnb prices per night based by room type and
-neighbourhood group in 2019
+![](../results/plots/categorical-plots.png)<!-- --> Figure 3. Mean New
+York Airbnb prices per night based by room type and neighbourhood group
+in 2019
+
+The mean price per night per night based by room type is as we would
+have expected. The prices of the entire home/apts is higher than private
+room followed by shared accomodations.
+
+From the different neighbourhoods, Manhattan is the most expensive one
+and Bronx has the lowest rates. The neighbourhood group and type of room
+will be important features in predicting price.
 
 We summarize the differences in a room type in a certain neighbourhood
-group same in a table where the number of listings, the mean price per
-night and the maximum price per night are
-shown.
+group in a table where the number of listings, the mean price per night
+and the maximum price per night are shown.
 
 | Neighbourhood Group | Room Type       | Number of Listings | Mean Price per Night | Max Price per Night |
 | :------------------ | :-------------- | -----------------: | -------------------: | ------------------: |
@@ -165,8 +182,7 @@ comparable results and are all an obvious upgrade over the median null
 model. Moreover, the ensemble has a decent performance improvement over
 the base models.
 
-Let us look at the feature importances of different
-models.
+Let us look at the feature importances of different models.
 
 |                                   | Random.Forest |   XGBoost |  LightGBM |
 | --------------------------------- | ------------: | --------: | --------: |
@@ -192,12 +208,11 @@ importance is not our focus.
 
 Let us look at the ensemble residuals on the test set.
 
-<img src="../results/plots/ensemble_residual_plot.png" width="916" />
-Figure 4. Residuals for average
-ensembling
+![](../results/plots/ensemble_residual_plot.png)<!-- --> Figure 4.
+Residuals for average ensembling
 
-<img src="../results/plots/ensemble_residual_distribution.png" width="900" />
-Figure 5. Distribution of residuals average ensembling
+![](../results/plots/ensemble_residual_distribution.png)<!-- --> Figure
+5. Distribution of residuals average ensembling
 
 <br><br> The residuals look to follow a normal distribution with a few
 big residuals spread along the high prices. We do not quite care about
