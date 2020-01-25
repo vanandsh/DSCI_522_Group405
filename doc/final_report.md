@@ -2,16 +2,6 @@ New York Airbnb Price Prediction 2019
 ================
 Ofer Mansour, Jacky Ho, Anand Vemparala
 
-  - [Summary](#summary)
-  - [Introduction](#introduction)
-  - [Data](#data)
-  - [EDA](#eda)
-  - [Our chosen models, metric and
-    why](#our-chosen-models-metric-and-why)
-  - [Our modelling result](#our-modelling-result)
-  - [Limitations](#limitations)
-  - [References](#references)
-
 # Summary
 
 In this project, our team attempted to predict Airbnb prices in New York
@@ -20,35 +10,34 @@ model. The models used in this project were: Random Forest, XGBoost,
 LightGBM and an average ensembling of the three algorithms, and
 evaluated by Mean Absolute Error. The average ensembling of Random
 Forest, XGBoost and LightGBM was the best performing model with a Mean
-Absolute Error of $63.94.
+Absolute Error of $63.81.
 
 # Introduction
 
 We aim to investigate what would be the appropriate or comparable price
-for a future Airbnb listing in the New York in 2020, given the same set
-of listing features from the dataset. New York is one of the most
-visited cities in the world, with a predicted 67 million tourists
-visiting in 2019
-(<span class="citeproc-not-found" data-reference-id="mcgeehan_2019_">**???**</span>)
-and 65 million tourists (Mcgeehan 2019b) visiting in 2018. With Airbnb’s
-popularity continuing to rise and its disruption of the hotel industry,
-more people are staying in Airbnb’s, as 500 million stays in an Airbnb
-have occurred since 2008 (Sherwood 2019), the company’s founding. With
-the popularity of both New York as a tourist attraction and Airbnb,
-being able to predict the price of an Airbnb in New York, given the same
-set of listing features from the dataset, would be extremely useful. An
-accurate and reasonable price prediction for a listing would be helpful
-for New York hosts, especially new hosts, to set their prices correctly.
+for a future Airbnb listing in New York in 2020, given the same set of
+listing features from the dataset. New York is one of the most visited
+cities in the world, with a predicted 67 million tourists visiting in
+2019 (Mcgeehan 2019b) and 65 million tourists (Mcgeehan 2019a) visiting
+in 2018. With Airbnb’s popularity continuing to rise and its disruption
+of the hotel industry, more people are staying in Airbnb’s, as 500
+million stays in an Airbnb have occurred since 2008 (Sherwood 2019), the
+company’s founding. With the popularity of both New York as a tourist
+attraction and Airbnb, being able to predict the price of an Airbnb in
+New York, given the same set of listing features from the dataset, would
+be extremely useful. An accurate and reasonable price prediction for a
+listing would be helpful for New York hosts, especially new hosts, to
+set their prices correctly.
 
 # Data
 
 The dataset used in this project is about Airbnb listings in New York in
-2019. The Airbnb listing data is coming directly from Airbnb, as posted
-on the company’s [site](http://insideairbnb.com/get-the-data.html)(“Get
-the Data - Inside Airbnb. Adding Data to the Debate.” n.d.). Each of the
-48,895 rows represents an Airbnb listing, which includes several
-features, such as the price of the listing, neighbourhood, room type and
-the number of reviews.
+2019. The Airbnb listing data is from[Inside
+Airbnb](http://insideairbnb.com/get-the-data.html)(“Get the Data -
+Inside Airbnb. Adding Data to the Debate.” n.d.), which is compiled from
+Airbnb’s website. Each of the 48,895 rows represents an Airbnb listing,
+which includes several features, such as the price of the listing,
+neighbourhood, room type and the number of reviews.
 
 # EDA
 
@@ -69,7 +58,7 @@ Variables:
   - minimum\_nights
   - neighbourhood
   - neighbourhood\_group
-  - number\_of\_reviews = price
+  - number\_of\_reviews = price (response variable)
   - reviews\_per\_month
   - room\_type
   - last\_review
@@ -82,32 +71,31 @@ To understand how strongly the remaining features are correlated to the
 price of a listing, we generated a correlation plot for all numerical
 features.
 
-![](../results/plots/corr-plot.png)<!-- --> Figure 1. Correlation and
-distribution plots for numerical features
+<img src="../results/plots/corr-plot.png" width="2100" /> Figure 1.
+Correlation and distribution plots for numerical features
 
 We observe that no individual predictor by itself is highly correlated
 to price.
 
-We see the distribution of our target variable price to get a general
-sense of the prices in all neighbourhoods of New York. There is an
-outlier that stands at $10000, other than which all prices are mostly
-lesser than 1000, with an average of $152 per night.
+We look at the distribution of our target variable price to get a
+general sense of the prices in all neighbourhoods of New York. There is
+an outlier that stands at $10,000. Other than this outlier, all prices
+are mostly less than $1000, with an average of $152 per night.
 
-![](../results/plots/price-dist.png)<!-- --> Figure 2. Distribution of
-New York Airbnb prices per night in 2019
+<img src="../results/plots/price-dist.png" width="2100" /> Figure 2.
+Distribution of New York Airbnb prices per night in 2019
 
 To understand the categorical features, we grouped the prices per night
 of the Airbnb listings based on the neighbourhood and the room type.
 
-![](../results/plots/categorical-plots.png)<!-- --> Figure 3. Mean New
-York Airbnb prices per night based by room type and neighbourhood group
-in 2019
+<img src="../results/plots/categorical-plots.png" width="2700" /> Figure
+3. Mean New York Airbnb prices per night based by room type and
+neighbourhood group in 2019
 
-This is very much in line with our expectations.
-
-We summarize the same in a table where the prices are grouped using
-neighbourhood group and room type, and their mean and max prices are
-calculated.
+We summarize the differences in a room type in a certain neighbourhood
+group same in a table where the number of listings, the mean price per
+night and the maximum price per night are
+shown.
 
 | Neighbourhood Group | Room Type       | Number of Listings | Mean Price per Night | Max Price per Night |
 | :------------------ | :-------------- | -----------------: | -------------------: | ------------------: |
@@ -177,7 +165,8 @@ comparable results and are all an obvious upgrade over the median null
 model. Moreover, the ensemble has a decent performance improvement over
 the base models.
 
-Let us look at the feature importances of different models.
+Let us look at the feature importances of different
+models.
 
 |                                   | Random.Forest |   XGBoost |  LightGBM |
 | --------------------------------- | ------------: | --------: | --------: |
@@ -203,34 +192,36 @@ importance is not our focus.
 
 Let us look at the ensemble residuals on the test set.
 
-![](../results/plots/ensemble_residual_plot.png)<!-- -->
+<img src="../results/plots/ensemble_residual_plot.png" width="916" />
+Figure 4. Residuals for average
+ensembling
 
-![](../results/plots/ensemble_residual_distribution.png)<!-- -->
+<img src="../results/plots/ensemble_residual_distribution.png" width="900" />
+Figure 5. Distribution of residuals average ensembling
 
-The residuals look to follow a normal distribution with a few big
-residuals spread along the high prices. We do not quite care about those
-big residuals over high prices because we intend our model to estimate
-the median. In particular, we do not want our model to be affected or
-swayed by high prices by too much since pulling the predictions towards
-that direction will hinder the listings’ ability to get bookings quickly
-and hence discourage new hosts from maintaining those listings. In
-conclusion, we believe our ensemble has done its job effectively.
+<br><br> The residuals look to follow a normal distribution with a few
+big residuals spread along the high prices. We do not quite care about
+those big residuals over high prices because we intend our model to
+estimate the median. In particular, we do not want our model to be
+affected or swayed by high prices by too much since pulling the
+predictions towards that direction will hinder the listings’ ability to
+get bookings quickly and hence discourage new hosts from maintaining
+those listings. In conclusion, we believe our ensemble has done its job
+effectively.
 
 # Limitations
 
-  - The data we have does not capture the season and months of the year.
-    There could be a high correlation between the prices and the season
-    of the year. In particular seasons and holidays, we can expect
-    tourist inflows to be much higher than normal thereby inflating the
-    listing prices
-
-  - Price of Airbnb listings fluctuate throughout the year, this too is
-    not captured and limits us from probing into this further
-
-  - A rating feature would have helped our models to predict the prices
-    better. In the dataset we are using, we do have reviews but it would
-    require us to do sentiment analysis on each review to get a pulse of
-    how the Airbnb listing compares to others
+Our project has a few limitations. First, the data we have does not
+capture the season and months of the year. There could be a high
+correlation between the prices and the season of the year. In particular
+seasons and holidays, we can expect tourist inflows to be much higher
+than normal thereby inflating the listing prices. As well, the prices of
+Airbnb listings fluctuate throughout the year, which is not captured and
+limits us from probing into this further. Finally, a rating feature
+would have helped our models to predict the prices better. In the
+dataset we are using, we do have reviews but it would require us to do
+sentiment analysis on each review to get a pulse of how the Airbnb
+listing compares to others.
 
 # References
 

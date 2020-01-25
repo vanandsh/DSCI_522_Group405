@@ -16,7 +16,8 @@ LightGBM and an average ensembling of the three models.
 
 ## Report
 
-The final report can be found here **will add link**
+The final report can be found
+[here](https://github.com/UBC-MDS/DSCI_522_Group405/blob/master/doc/final_report.md).
 
 ## Usage
 
@@ -31,7 +32,7 @@ from the root directory of this project:
     python src/wrangle.py --source_file_location="./data/raw_data.csv" --target_location="./data"
     
     # run eda 
-    Rscript.exe src/eda_script.R --source_file="./data/train.csv" --target_location="./results"
+    Rscript src/eda_script.R --source_file="./data/train.csv" --target_location="./results"
     
     # run model
     python src/model.py --source_file_location="./data" --target_location="./results"
@@ -50,6 +51,7 @@ from the root directory of this project:
       - lightgbm
       - xgboost
       - altair
+      - os
   - R
       - docopt
       - tidyverse
