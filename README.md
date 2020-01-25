@@ -52,6 +52,7 @@ from the root directory of this project:
       - xgboost
       - altair
       - os
+      - schema
   - R
       - docopt
       - tidyverse
