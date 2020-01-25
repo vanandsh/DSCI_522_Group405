@@ -4,17 +4,16 @@
 '''
 Train an average ensemble model based on a Random Forest regressor model,
 a XGBoost regressor model and a LightGBM model with a set train and test data.
-Then, output the results in charts and tables
+Then, output the results in charts and tables in terms of test dataset performance.
 
 Usage: model.py --source_file_location=<source_file_location> --target_location=<target_location>
 
-source_file_location - a path/filename pointing to the data to be read in
-target_location - a path/filename prefix where to write the figure(s)/table(s) to and what to call it
+source_file_location - a path to a folder containing train.csv and test.csv
+target_location - a path to a folder where the result charts and tables will reside
 
 '''
 
 import requests
-from docopt import docopt
 import pandas as pd
 import numpy as np
 from lightgbm import LGBMRegressor
@@ -26,7 +25,13 @@ from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import LabelEncoder
 import altair as alt
 
-from selenium import webdriver
+from docopt import docopt
+try:
+    from schema import Schema, And, Or, Use, SchemaError
+except ImportError:
+    exit('This example requires that `schema` data-validation library'
+         ' is installed: \n    pip install schema\n'
+         'https://github.com/halst/schema')
 
 alt.data_transformers.enable('json')
 
@@ -63,6 +68,7 @@ model_map = {
 
 opt = docopt(__doc__)
 
+# Label-encode the categorical features and split the data
 def preprocess(full_train, full_test):
     X_train = full_train.drop(['price'], axis=1)
     y_train = full_train['price']
@@ -79,6 +85,8 @@ def preprocess(full_train, full_test):
 
     return [X_train, y_train, X_test, y_test]
 
+# Train the base models, which are Random Forest, XGBoost and LightGBM in that
+# order, and return the GridSearchCV wrappers of them
 def train_base_models(X_train, y_train):
     models = []
 
@@ -105,12 +113,14 @@ def train_base_models(X_train, y_train):
 
     return models
 
+# Average the base models as an ensemble
 def average_ensemble_models(models, X):
     return np.average(
         list(map(lambda x: x.predict(X), models)),
         axis=0
     )
 
+# Save the residual graphs from the models
 def save_ensemble_residual_graphs(save_to, models, X, y):
     ensemble_residual_df = pd.DataFrame({
       'true_price': y,
@@ -170,7 +180,7 @@ def save_feature_importance_table(save_to, models, columns):
         save_to + '/feature_importance_table.csv'
     )
 
-
+# Output the model performances in terms of mean absolute error on a table
 def save_model_performance_table(save_to, models, X, y):
     test_mean_absolute_error_df = pd.DataFrame({
       'mean_absolute_error': [
@@ -199,19 +209,33 @@ def save_model_performance_table(save_to, models, X, y):
 
 
 def main(source_file_location, target_location):
-  train_file = source_file_location + "/train.csv"
-  test_file = source_file_location + "/test.csv"
+    train_file = source_file_location + "/train.csv"
+    test_file = source_file_location + "/test.csv"
 
-  results_plots_folder = target_location + "/plots"
-  results_tables_folder = target_location + "/tables"
+    results_plots_folder = target_location + "/plots"
+    results_tables_folder = target_location + "/tables"
 
-  full_train = pd.read_csv(train_file)
-  full_test = pd.read_csv(test_file, index_col=0)
+    full_train = pd.read_csv(train_file)
+    full_test = pd.read_csv(test_file, index_col=0)
 
-  X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
-  models = train_base_models(X_train, y_train)
-  save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
-  save_feature_importance_table(results_tables_folder, models, X_test.columns)
-  save_model_performance_table(results_tables_folder, models, X_test, y_test)
+    X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
+    models = train_base_models(X_train, y_train)
+    save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
+    save_feature_importance_table(results_tables_folder, models, X_test.columns)
+    save_model_performance_table(results_tables_folder, models, X_test, y_test)
 
-main(opt['--source_file_location'], opt['--target_location'])
+if __name__ == "__main__":
+    schema = Schema({
+        '--source_file_location': And(
+            os.path.exists, error='source path should exist'
+        ),
+        '--target_location': And(
+            os.path.exists, error='target path should exist'
+        )
+    })
+    try:
+        args = schema.validate(args)
+    except SchemaError as e:
+        exit(e)
+
+    main(opt['--source_file_location'], opt['--target_location'])
