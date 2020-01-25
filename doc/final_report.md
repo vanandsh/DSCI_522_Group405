@@ -211,12 +211,12 @@ effectively.
 
 # Limitations
 
-Our project has a few limitations. First,t he data we have does not
+Our project has a few limitations. First, the data we have does not
 capture the season and months of the year. There could be a high
 correlation between the prices and the season of the year. In particular
 seasons and holidays, we can expect tourist inflows to be much higher
 than normal thereby inflating the listing prices. As well, the prices of
-Airbnb listings fluctuate throughout the year, whichis not captured and
+Airbnb listings fluctuate throughout the year, which is not captured and
 limits us from probing into this further. Finally, a rating feature
 would have helped our models to predict the prices better. In the
 dataset we are using, we do have reviews but it would require us to do
