@@ -24,6 +24,21 @@ To replicate this project, clone this GitHub repository, install the
 dependencies and run the commands below at the command line or terminal
 from the root directory of this project:
 
+    # download dataset
+    python src/data_download.py --url="https://raw.githubusercontent.com/vanandsh/datasets/master/AB_NYC_2019.csv" --file_location="./data/raw_data.csv"
+    
+    # wrangle data 
+    python src/wrangle.py --source_file_location="./data/raw_data.csv" --target_location="./data"
+    
+    # run eda 
+    Rscript.exe src/eda_script.R --source_file="./data/train.csv" --target_location="./results"
+    
+    # run model
+    python src/model.py --source_file_location="./data" --target_location="./results"
+    
+    # knit final report
+    Rscript src/knit_rmd.R --source_file="./doc/final_report.Rmd"
+
 ## Dependencies
 
   - Python and Python Packages
