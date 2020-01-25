@@ -5,6 +5,7 @@ bibliography: references.bib
 output: 
   github_document:
     toc: true
+nocite: '@*'
 ---
 
 
