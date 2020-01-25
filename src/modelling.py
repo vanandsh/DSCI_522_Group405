@@ -1,16 +1,9 @@
-# author: Ofer Mansour, Jacky Ho, Anand Vemparala
-# date: 2020-01-23
-
 '''
 Train an average ensemble model based on a Random Forest regressor model,
 a XGBoost regressor model and a LightGBM model with a set train and test data.
 Then, output the results in charts and tables
 
-Usage: model.py --source_file_location=<source_file_location> --target_location=<target_location>
-
-source_file_location - a path/filename pointing to the data to be read in
-target_location - a path/filename prefix where to write the figure(s)/table(s) to and what to call it
-
+Usage: modelling.py
 '''
 
 import requests
@@ -26,9 +19,11 @@ from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import LabelEncoder
 import altair as alt
 
-from selenium import webdriver
-
 alt.data_transformers.enable('json')
+
+opt = docopt(__doc__)
+
+random_state = 0
 
 categorical_features = [
     'neighbourhood_group',
@@ -55,30 +50,11 @@ tuning_parameter_map = {
     }
 }
 
-# Minimized hyperparameters for testing 
-# 
-# tuning_parameter_map = {
-#     'random_forest': {
-#       'max_depth': [10],
-#       'criterion': ['mse']
-#     },
-#     'xgboost': {
-#       'max_depth': [5]
-#     },
-#     'lightGBM': {
-#       'max_depth': [15]
-#     }
-# }
-
-
 model_map = {
-    'random_forest': RandomForestRegressor(),
-    'xgboost': XGBRegressor(),
-    'lightGBM': LGBMRegressor()
+    'random_forest': RandomForestRegressor(random_state=random_state),
+    'xgboost': XGBRegressor(random_state=random_state),
+    'lightGBM': LGBMRegressor(random_state=random_state)
 }
-
-
-opt = docopt(__doc__)
 
 def preprocess(full_train, full_test):
     X_train = full_train.drop(['price'], axis=1)
@@ -103,8 +79,7 @@ def train_base_models(X_train, y_train):
         model = GridSearchCV(
           estimator=model_map[model_name],
           param_grid=tuning_parameter_map[model_name],
-          # cv=4,
-          cv=2,
+          cv=4,
           verbose=2,
           n_jobs=-1,
           scoring='neg_mean_absolute_error'
@@ -121,16 +96,15 @@ def train_base_models(X_train, y_train):
 
         models.append(model)
 
-    return models 
-    
+    return models
+
 def average_ensemble_models(models, X):
     return np.average(
         list(map(lambda x: x.predict(X), models)),
         axis=0
     )
-    
-def save_ensemble_residual_graphs(save_to, models, X, y):
-  
+
+def save_ensemble_residual_graphs(models, X, y, out_path):
     ensemble_residual_df = pd.DataFrame({
       'true_price': y,
       'average_ensemble_residual': y - average_ensemble_models(models, X)
@@ -164,12 +138,13 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
 
     with alt.data_transformers.enable('default'):
         residual_chart.save(
-            save_to + '/ensemble_residual_plot.png'
+            out_path + '/ensemble_residual_plot.png'
         )
         residual_dist_chart.save(
-            save_to + '/ensemble_residual_distribution.png'
+            out_path + '/ensemble_residual_distribution.png'
         )
-def save_feature_importance_table(save_to, models, columns):
+
+def save_feature_importance_table(models, columns, out_path):
     feature_important_df = pd.DataFrame({
       'Random Forest':
           models[0].best_estimator_.feature_importances_,
@@ -185,11 +160,10 @@ def save_feature_importance_table(save_to, models, columns):
     feature_important_df.index = columns
 
     feature_important_df.to_csv(
-        save_to + '/feature_importance_table.csv'
+        out_path + '/feature_importance_table.csv'
     )
 
-
-def save_model_performance_table(save_to, models, X, y):
+def save_model_performance_table(models, X, y, out_path):
     test_mean_absolute_error_df = pd.DataFrame({
       'mean_absolute_error': [
         mean_absolute_error(
@@ -212,26 +186,18 @@ def save_model_performance_table(save_to, models, X, y):
     ]
 
     test_mean_absolute_error_df.to_csv(
-        save_to + '/mean_absolute_error_table.csv'
+        out_path + '/mean_absolute_error_table.csv'
     )
 
+def main(train_path, test_path, out_path):
+    full_train = pd.read_csv(train_path, index_col=0)
+    full_test = pd.read_csv(test_path, index_col=0)
 
-def main(source_file_location, target_location):
-  
-  train_file = source_file_location + "/train.csv"
-  test_file = source_file_location + "/test.csv"
-  
-  results_plots_folder = target_location + "/plots"
-  results_tables_folder = target_location + "/tables"
-  
-  full_train = pd.read_csv(train_file)
-  full_test = pd.read_csv(test_file, index_col=0)
+    X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
+    models = train_base_models(X_train, y_train)
+    save_ensemble_residual_graphs(models, X_test, y_test, out_path)
+    save_feature_importance_table(models, X_test.columns, out_path)
+    save_model_performance_table(models, X_test, y_test, out_path)
 
-  X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
-  models = train_base_models(X_train, y_train)
-  save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
-  save_feature_importance_table(results_tables_folder, models, X_test.columns)
-  save_model_performance_table(results_tables_folder, models, X_test, y_test)
-  
-
-main(opt['--source_file_location'], opt['--target_location'])
+if __name__ == "__main__":
+    main('./training_data.csv', './testing_data.csv', '.')
