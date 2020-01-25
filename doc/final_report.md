@@ -223,6 +223,27 @@ dataset we are using, we do have reviews but it would require us to do
 sentiment analysis on each review to get a pulse of how the Airbnb
 listing compares to others.
 
+There are some limitations to our models as well. Due to our time
+constraint and long training time with random forest as well as xgboost,
+we could not cover a more extended range of hyperparameters, which could
+result in better models. Also, since interpretation is not an emphasis
+in our result, we could go for a more complicated but powerful
+ensembling technique, such as stacking. Moreover, we did not create any
+new feature which could potentially improve predictions. For instance,
+we could turn the last\_review feature into a new feature for days since
+the last review.
+
+# Potential future improvements
+
+If this project were to continue, we had a few upgrades in mind in terms
+of data analysis and modeling. Regarding data analysis, we would want to
+look at some new features we can generate, such as days before the last
+review and whether a listing has low availability. We will explore
+whether they have distinct patterns on prices and form our expectations
+about their respective importances. We could potentially take them into
+account for our models and explore other ensembling techniques, such as
+stacking, to see if we could arrive at more accurate predictions.
+
 # References
 
 <div id="refs" class="references">
@@ -280,6 +301,13 @@ Inc.
 
 Keleshev, Vladimir. 2014. *Docopt: Command-Line Interface Description
 Language*. <https://github.com/docopt/docopt>.
+
+</div>
+
+<div id="ref-schema">
+
+———. 2019. *Schema: Validating Python Data Structures*.
+<https://github.com/keleshev/schema>.
 
 </div>
 
