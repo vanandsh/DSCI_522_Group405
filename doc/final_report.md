@@ -58,7 +58,8 @@ Variables:
   - minimum\_nights
   - neighbourhood
   - neighbourhood\_group
-  - number\_of\_reviews = price (response variable)
+  - number\_of\_reviews  
+  - price (response variable)
   - reviews\_per\_month
   - room\_type
   - last\_review
