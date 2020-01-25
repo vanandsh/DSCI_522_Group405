@@ -5,10 +5,11 @@ bibliography: references.bib
 output: 
   github_document:
     toc: true
+nocite: '@*'
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(knitr)
 library(tidyverse)
 library(png)

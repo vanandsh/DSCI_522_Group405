@@ -30,7 +30,7 @@ of listing features from the dataset. New York is one of the most
 visited cities in the world, with a predicted 67 million tourists
 visiting in 2019
 (<span class="citeproc-not-found" data-reference-id="mcgeehan_2019_">**???**</span>)
-and 65 million tourists (Mcgeehan 2019) visiting in 2018. With Airbnb’s
+and 65 million tourists (Mcgeehan 2019b) visiting in 2018. With Airbnb’s
 popularity continuing to rise and its disruption of the hotel industry,
 more people are staying in Airbnb’s, as 500 million stays in an Airbnb
 have occurred since 2008 (Sherwood 2019), the company’s founding. With
@@ -236,6 +236,36 @@ conclusion, we believe our ensemble has done its job effectively.
 
 <div id="refs" class="references">
 
+<div id="ref-gridExtra">
+
+Auguie, Baptiste. 2015. *GridExtra: Miscellaneous Functions for "Grid"
+Graphics*. <http://CRAN.R-project.org/package=gridExtra>.
+
+</div>
+
+<div id="ref-chandra2015python">
+
+Chandra, Rakesh Vidya, and Bala Subrahmanyam Varanasi. 2015. *Python
+Requests Essentials*. Packt Publishing Ltd.
+
+</div>
+
+<div id="ref-Chen:2016:XST:2939672.2939785">
+
+Chen, Tianqi, and Carlos Guestrin. 2016. “XGBoost: A Scalable Tree
+Boosting System.” In *Proceedings of the 22nd Acm Sigkdd International
+Conference on Knowledge Discovery and Data Mining*, 785–94. KDD ’16. New
+York, NY, USA: ACM. <https://doi.org/10.1145/2939672.2939785>.
+
+</div>
+
+<div id="ref-docopt">
+
+de Jonge, Edwin. 2018. *Docopt: Command-Line Interface Specification
+Language*. <https://CRAN.R-project.org/package=docopt>.
+
+</div>
+
 <div id="ref-GettheDa10:online">
 
 “Get the Data - Inside Airbnb. Adding Data to the Debate.” n.d.
@@ -243,11 +273,79 @@ conclusion, we believe our ensemble has done its job effectively.
 
 </div>
 
+<div id="ref-NIPS2017_6907">
+
+Ke, Guolin, Qi Meng, Thomas Finley, Taifeng Wang, Wei Chen, Weidong Ma,
+Qiwei Ye, and Tie-Yan Liu. 2017. “LightGBM: A Highly Efficient Gradient
+Boosting Decision Tree.” In *Advances in Neural Information Processing
+Systems 30*, edited by I. Guyon, U. V. Luxburg, S. Bengio, H. Wallach,
+R. Fergus, S. Vishwanathan, and R. Garnett, 3146–54. Curran Associates,
+Inc.
+<http://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf>.
+
+</div>
+
+<div id="ref-docoptpython">
+
+Keleshev, Vladimir. 2014. *Docopt: Command-Line Interface Description
+Language*. <https://github.com/docopt/docopt>.
+
+</div>
+
+<div id="ref-mcgeehan_2018">
+
+Mcgeehan, Patrick. 2019a. “N.Y. Draws a Record 65 Million Tourists (in
+Spite of Trump’s Trade War, Many Were Chinese).” *The New York Times*.
+The New York Times.
+<https://www.nytimes.com/2019/01/16/nyregion/nyc-tourism-record.html>.
+
+</div>
+
 <div id="ref-mcgeehan_2019">
 
-Mcgeehan, Patrick. 2019. “N.Y.C. Is on Pace to Draw a Record 67 Million
-Tourists This Year.” *The New York Times*. The New York Times.
+———. 2019b. “N.Y.C. Is on Pace to Draw a Record 67 Million Tourists This
+Year.” *The New York Times*. The New York Times.
 <https://www.nytimes.com/2019/08/19/nyregion/nyc-tourism.html>.
+
+</div>
+
+<div id="ref-mckinney-proc-scipy-2010">
+
+McKinney, Wes. 2010. “Data Structures for Statistical Computing in
+Python.” In *Proceedings of the 9th Python in Science Conference*,
+edited by Stéfan van der Walt and Jarrod Millman, 51–56.
+
+</div>
+
+<div id="ref-oliphant2006guide">
+
+Oliphant, Travis E. 2006. *A Guide to Numpy*. Vol. 1. Trelgol Publishing
+USA.
+
+</div>
+
+<div id="ref-scikit-learn">
+
+Pedregosa, F., G. Varoquaux, A. Gramfort, V. Michel, B. Thirion, O.
+Grisel, M. Blondel, et al. 2011. “Scikit-Learn: Machine Learning in
+Python.” *Journal of Machine Learning Research* 12: 2825–30.
+
+</div>
+
+<div id="ref-R">
+
+R Core Team. 2019. *R: A Language and Environment for Statistical
+Computing*. Vienna, Austria: R Foundation for Statistical Computing.
+<https://www.R-project.org/>.
+
+</div>
+
+<div id="ref-barret_schloerke_2016_166547">
+
+Schloerke, Barret, François Briatte, bigbeardesktop, Jason Crowley,
+justsomeone1001, Dianne Cook, Eduardo Ibanez, et al. 2016.
+*Ggobi/Ggally: GGally 1.3.0* (version v1.3.0). Zenodo.
+<https://doi.org/10.5281/zenodo.166547>.
 
 </div>
 
@@ -256,6 +354,39 @@ Tourists This Year.” *The New York Times*. The New York Times.
 Sherwood, Harriet. 2019. “How Airbnb Took over the World.” *The
 Guardian*. Guardian News; Media.
 <https://www.theguardian.com/technology/2019/may/05/airbnb-homelessness-renting-housing-accommodation-social-policy-cities-travel-leisure>.
+
+</div>
+
+<div id="ref-2018-altair">
+
+Sievert, Jacob VanderPlas AND Brian E. Granger AND Jeffrey Heer AND
+Dominik Moritz AND Kanit Wongsuphasawat AND Arvind Satyanarayan AND
+Eitan Lees AND Ilia Timofeev AND Ben Welsh AND Scott. 2018. “Altair:
+Interactive Statistical Visualizations for Python.” *The Journal of Open
+Source Software* 3 (32). <http://idl.cs.washington.edu/papers/altair>.
+
+</div>
+
+<div id="ref-Python">
+
+Van Rossum, Guido, and Fred L. Drake. 2009. *Python 3 Reference Manual*.
+Scotts Valley, CA: CreateSpace.
+
+</div>
+
+<div id="ref-tidyverse">
+
+Wickham, Hadley. 2017. *Tidyverse: Easily Install and Load the
+’Tidyverse’*. <https://CRAN.R-project.org/package=tidyverse>.
+
+</div>
+
+<div id="ref-knitr">
+
+Xie, Yihui. 2014. “Knitr: A Comprehensive Tool for Reproducible Research
+in R.” In *Implementing Reproducible Computational Research*, edited by
+Victoria Stodden, Friedrich Leisch, and Roger D. Peng. Chapman;
+Hall/CRC. <http://www.crcpress.com/product/isbn/9781466561595>.
 
 </div>
 
