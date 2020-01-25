@@ -26,6 +26,8 @@ from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import LabelEncoder
 import altair as alt
 
+from selenium import webdriver
+
 alt.data_transformers.enable('json')
 
 categorical_features = [
@@ -119,10 +121,9 @@ def train_base_models(X_train, y_train):
 
     return models 
     
-
 def average_ensemble_models(models, X):
     return np.average(
-        map(lambda x: x.predict(X), models),
+        list(map(lambda x: x.predict(X), models)),
         axis=0
     )
     
@@ -132,7 +133,6 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
       'true_price': y,
       'average_ensemble_residual': y - average_ensemble_models(models, X)
     })
-
 
     residual_chart = alt.Chart(
         ensemble_residual_df
@@ -167,11 +167,12 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
         residual_dist_chart.save(
             save_to + '/ensemble_residual_distribution.png'
         )
-
 def save_feature_importance_table(save_to, models, columns):
     feature_important_df = pd.DataFrame({
-      'Random Forest': models[0].feature_importances_,
-      'XGBoost': models[1].feature_importances_,
+      'Random Forest':
+          models[0].best_estimator_.feature_importances_,
+      'XGBoost':
+          models[1].best_estimator_.feature_importances_,
       'LightGBM': (
           models[2].best_estimator_.feature_importances_/sum(
               models[2].best_estimator_.feature_importances_
@@ -184,6 +185,7 @@ def save_feature_importance_table(save_to, models, columns):
     feature_important_df.to_csv(
         save_to + '/feature_importance_table.csv'
     )
+
 
 def save_model_performance_table(save_to, models, X, y):
     test_mean_absolute_error_df = pd.DataFrame({
@@ -200,7 +202,7 @@ def save_model_performance_table(save_to, models, X, y):
     })
 
     test_mean_absolute_error_df.index = [
-        'Median Null Model'
+        'Median Null Model',
         'Random Forest',
         'XGBoost',
         'LightGBM',
@@ -210,6 +212,7 @@ def save_model_performance_table(save_to, models, X, y):
     test_mean_absolute_error_df.to_csv(
         save_to + '/mean_absolute_error_table.csv'
     )
+
 
 def main(source_file_location, target_location):
   
@@ -224,21 +227,9 @@ def main(source_file_location, target_location):
 
   X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
   models = train_base_models(X_train, y_train)
-  # save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
-  # save_feature_importance_table(results_tables_folder, models, X_test.columns)
-  # save_model_performance_table(results_tables_folder, models, X_test, y_test)
-  # 
+  save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
+  save_feature_importance_table(results_tables_folder, models, X_test.columns)
+  save_model_performance_table(results_tables_folder, models, X_test, y_test)
   
-# 
-# def main(train_path, test_path, out_path):
-#     full_train = pd.read_csv(train_path, index_col=0)
-#     full_test = pd.read_csv(test_path, index_col=0)
-# 
-#     X_train, y_train, X_test, y_test = preprocess(full_train, full_test)
-#     models = train_base_models(X_train, y_train)
-#     save_ensemble_residual_graphs(models, X_test, y_test)
-#     save_feature_importance_table(models, X_test.columns)
-#     save_model_performance_table(models, X_test, y_test)
-
 
 main(opt['--source_file_location'], opt['--target_location'])
