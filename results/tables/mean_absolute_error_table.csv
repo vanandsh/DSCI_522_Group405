@@ -1,0 +1,6 @@
+,mean_absolute_error
+Median Null Model,83.20462214950403
+Random Forest,65.3525494406265
+XGBoost,65.45117289039399
+LightGBM,65.79249854834946
+Average Ensembling,63.93848471184588
