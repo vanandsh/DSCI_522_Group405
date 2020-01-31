@@ -40,10 +40,14 @@ main <- function(input, output) {
   ggsave(save_to, plot = corr_plot)
   
   # price distribution
-  price_dist  <- ggplot(training_data, aes(x = price)) + 
-    geom_histogram(bins = 500, fill = 'mediumpurple') +
-    labs(x = 'Price per Night (USD)', y = 'Count', title =  'Distribution of Price per Night in USD') +
-    theme(plot.title = element_text(hjust = 0.5))
+  price_dist  <- ggplot(training_data, aes(x = factor(0), y = price)) +
+    scale_y_log10() +
+    geom_boxplot() +
+    labs(x = "", y = "Price USD (log scaled)", 
+         title = "Distribution of Price per Night in USD") +
+    theme(axis.ticks.x= element_blank(), 
+          axis.text.x=element_blank(),
+          plot.title = element_text(hjust = 0.5))
   
   # save plot
   save_to = paste0(output,"/plots/price-dist.png")
