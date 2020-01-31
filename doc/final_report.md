@@ -46,23 +46,30 @@ categorical.
 
 Variables:
 
-  - id
-  - name
-  - availability\_365
-  - calculated\_host\_listings\_count
-  - df\_index
-  - host\_id
-  - host\_name
-  - latitude
-  - longitude
-  - minimum\_nights
-  - neighbourhood
-  - neighbourhood\_group
-  - number\_of\_reviews  
-  - price (response variable)
-  - reviews\_per\_month
-  - room\_type
-  - last\_review
+  - **id:** Integer representing listing identification number.  
+  - **name:** The title of the listing.  
+  - **availability\_365:** The number of days in the year that the
+    listing is available to book.  
+  - **calculated\_host\_listings\_count:** The total number of listings
+    the host of the listing has.  
+  - **host\_id:** Integer representing the host’s identification
+    number.  
+  - **host\_name:** First name(s) of host(s).  
+  - **latitude:** The latitude of location of listing.  
+  - **longitude:** The longitude of location of listing.  
+  - **minimum\_nights:** The minimum nights a user must book the
+    listing.  
+  - **neighbourhood:** The neighbourhood the listing is in.  
+  - **neighbourhood\_group:** The borough the listing is in. (The 5
+    boroughs of New York are Brooklyn, Manhattan, the Bronx, Staten
+    Island and Queens).  
+  - **number\_of\_reviews:** The number of reviews the listing has.  
+  - **price (response variable):** The per night price of the listing.  
+  - **reviews\_per\_month:** The number of reviews the listing has per
+    month.  
+  - **room\_type:** The type of room of the listing. (The 3 options are:
+    Entire home/apartment, Private room and Shared room).  
+  - **last\_review:** The date of the last review posted of the listing.
 
 We dropped ‘id’,‘name’, ‘host\_id’, ‘host\_name’,‘last\_review’ as they
 do not provide any insight on the price of a listing. To standardize the
