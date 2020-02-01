@@ -17,7 +17,7 @@ library(png)
 
 # Summary
 
-In this project, our team attempted to predict Airbnb prices in New York by testing several tree-based algorithms and finding the best performing model. The models used in this project were: Random Forest, XGBoost, LightGBM and an average ensembling of the three algorithms, and evaluated by Mean Absolute Error. The average ensembling of Random Forest, XGBoost and LightGBM was the best performing model with a Mean Absolute Error of $63.98.
+In this project, our team attempted to predict Airbnb prices in New York by testing several tree-based algorithms and finding the best performing model. The models used in this project were: Random Forest, XGBoost, LightGBM and an average ensembling of the three algorithms, and evaluated by Mean Absolute Error. The average ensembling of Random Forest, XGBoost and LightGBM was the best performing model with a Mean Absolute Error of $63.94.
 
 # Introduction
 
