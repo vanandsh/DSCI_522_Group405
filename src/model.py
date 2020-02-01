@@ -24,6 +24,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import LabelEncoder
 import altair as alt
+import os
 
 from docopt import docopt
 try:
@@ -234,7 +235,7 @@ if __name__ == "__main__":
         )
     })
     try:
-        args = schema.validate(args)
+        args = schema.validate(opt)
     except SchemaError as e:
         exit(e)
 
