@@ -184,7 +184,7 @@ def save_feature_importance_table(save_to, models, columns):
         save_to + '/feature_importance_table.csv'
     )
 
-def get_model_performance(models, X, y)
+def get_model_performance(models, X, y):
     return [
       mean_absolute_error(
         y,

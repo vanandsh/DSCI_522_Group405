@@ -8,11 +8,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # New York Airbnb Price Predictor
-- authors: Ofer Mansour, Jacky Ho, Anand Vemparala 
+- authors: Ofer Mansour, Jacky Ho, Anand Vemparala
 
 ## About
 
-In this project, our team attempted to predict Airbnb prices in New York, using a [dataset](http://insideairbnb.com/get-the-data.html)[@GettheDa10:online] of all listings in 2019. The dataset includes 48,895  listings and includes several features, such as the price of the listing, neighbourhood, room type and number of reviews. To find the best performing prediction model, we tested several tree-based models: Random Forest, XGBoost, LightGBM and an average ensembling of the three models. 
+In this project, our team attempted to predict Airbnb prices in New York, using a [dataset](http://insideairbnb.com/get-the-data.html)[@GettheDa10:online] of all listings in 2019. The dataset includes 48,895  listings and includes several features, such as the price of the listing, neighbourhood, room type and number of reviews. To find the best performing prediction model, we tested several tree-based models: Random Forest, XGBoost, LightGBM and an average ensembling of the three models.
 
 
 ## Report
@@ -37,22 +37,23 @@ make clean
 ## Dependencies
 
 - Python 3.7.3 and Python Packages:
-  - docopt==0.6.2  
-  - requests==2.22.0  
-  - pandas==0.24.2   
-  - numpy==1.16.4  
-  - sklearn==0.21.2  
-  - lightgbm==2.3.1  
-  - xgboost==0.90  
+  - docopt==0.6.2
+  - requests==2.22.0
+  - pandas==0.24.2
+  - numpy==1.16.4
+  - sklearn==0.21.2
+  - lightgbm==2.3.1
+  - xgboost==0.90
   - altair==3.2.0
   - os==3.7.3
   - schema==0.7.1
+  - selenium==3.141.0
 - R version 3.6.2 and R packages:
-  - docopt==0.6.1   
-  - tidyverse==1.2.1  
-  - GGally==1.4.0  
-  - gridExtra==2.3  
-  - knitr==1.27.2  
-- GNU Make 3.81  
+  - docopt==0.6.1
+  - tidyverse==1.2.1
+  - GGally==1.4.0
+  - gridExtra==2.3
+  - knitr==1.27.2
+- GNU Make 3.81
 
 # References
