@@ -13,7 +13,7 @@ results/tables/summary_table.csv \
 results/plots/categorical-plots.png \
 results/plots/corr-plot.png \
 results/plots/price-dist.png : data/train.csv data/test.csv src/eda_script.R
-	Rscript.exe src/eda_script.R --source_file="./data/train.csv" --target_location="./results"
+	Rscript src/eda_script.R --source_file="./data/train.csv" --target_location="./results"
 
 
 results/tables/feature_importance_table.csv \

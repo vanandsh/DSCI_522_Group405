@@ -10,7 +10,7 @@ model. The models used in this project were: Random Forest, XGBoost,
 LightGBM and an average ensembling of the three algorithms, and
 evaluated by Mean Absolute Error. The average ensembling of Random
 Forest, XGBoost and LightGBM was the best performing model with a Mean
-Absolute Error of $63.98.
+Absolute Error of $63.94.
 
 # Introduction
 
