@@ -34,23 +34,22 @@ The Airbnb data has 16 variables, where 11 are numerical and 5 are categorical.
 
 Variables:
 
-- id
-- name
-- availability_365
-- calculated_host_listings_count
-- df_index
-- host_id
-- host_name
-- latitude
-- longitude
-- minimum_nights
-- neighbourhood
-- neighbourhood_group
-- number_of_reviews  
-- price (response variable)
-- reviews_per_month
-- room_type
-- last_review
+- **id:** Integer representing listing identification number.  
+- **name:** The title of the listing.  
+- **availability_365:** The number of days in the year that the listing is available to book.  
+- **calculated_host_listings_count:** The total number of listings the host of the listing has.  
+- **host_id:** Integer representing the host's identification number.  
+- **host_name:** First name(s) of host(s).  
+- **latitude:** The latitude of location of listing.  
+- **longitude:** The longitude of location of listing.  
+- **minimum_nights:** The minimum nights a user must book the listing.  
+- **neighbourhood:** The neighbourhood the listing is in.  
+- **neighbourhood_group:** The borough the listing is in. (The 5 boroughs of New York are Brooklyn, Manhattan, the Bronx, Staten Island and Queens).   
+- **number_of_reviews:** The number of reviews the listing has.  
+- **price (response variable):** The per night price of the listing.  
+- **reviews_per_month:** The number of reviews the listing has per month.  
+- **room_type:** The type of room of the listing. (The 3 options are: Entire home/apartment, Private room and Shared room).  
+- **last_review:** The date of the last review posted of the listing.  
 
 We dropped 'id','name', 'host_id', 'host_name','last_review' as they do not provide any insight on the price of a listing. To standardize the data, we imputed values by replacing NaNs with zeros wherever required. 
 
