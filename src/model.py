@@ -87,6 +87,8 @@ def preprocess(full_train, full_test):
 
     print('Data preprocessed!')
 
+    assert len(X_train.columns) == (len(full_train.columns) - 1)
+
     return [X_train, y_train, X_test, y_test]
 
 # Train the base models, which are Random Forest, XGBoost and LightGBM in that
@@ -115,17 +117,22 @@ def train_base_models(X_train, y_train):
 
         models.append(model)
 
+    assert len(models) == len(model_map.keys())
+
     return models
 
 # Average the base models as an ensemble
 def average_ensemble_models(models, X):
-    return np.average(
-        list(map(lambda x: x.predict(X), models)),
-        axis=0
-    )
+    predictions = list(map(lambda x: x.predict(X), models))
+
+    assert len(predictions) == len(models)
+
+    return np.average(predictions, axis=0)
 
 # Save the residual graphs from the models
 def save_ensemble_residual_graphs(save_to, models, X, y):
+    assert isinstance(save_to, str) == True
+
     ensemble_residual_df = pd.DataFrame({
       'true_price': y,
       'average_ensemble_residual': y - average_ensemble_models(models, X)
@@ -166,6 +173,8 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
         )
 
 def save_feature_importance_table(save_to, models, columns):
+    assert len(models) == 3
+
     feature_important_df = pd.DataFrame({
       'Random Forest':
           models[0].best_estimator_.feature_importances_,
@@ -185,6 +194,8 @@ def save_feature_importance_table(save_to, models, columns):
     )
 
 def get_model_performance(models, X, y):
+    assert len(models) == 3
+
     return [
       mean_absolute_error(
         y,
@@ -206,6 +217,8 @@ def save_model_performance_table(save_to, models, X_train, y_train, X_test, y_te
         models, X_test, y_test
       )
     })
+
+    assert len(mean_absolute_error_df.index) == 5
 
     mean_absolute_error_df.index = [
         'Median Null Model',
