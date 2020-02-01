@@ -54,6 +54,8 @@ make clean
   - GGally==1.4.0
   - gridExtra==2.3
   - knitr==1.27.2
-- GNU Make 3.81
+- GNU Make 3.81  
+- ChromeDriver 79.0.3945.36  
+
 
 # References
