@@ -10,7 +10,7 @@ model. The models used in this project were: Random Forest, XGBoost,
 LightGBM and an average ensembling of the three algorithms, and
 evaluated by Mean Absolute Error. The average ensembling of Random
 Forest, XGBoost and LightGBM was the best performing model with a Mean
-Absolute Error of $63.81.
+Absolute Error of $63.98.
 
 # Introduction
 
@@ -144,18 +144,20 @@ predictive performances than other regressors, such as linear
 regression. Furthermore, the feature, neighbourhood, has over 200
 categories, and the only models that can process it with labels are
 tree-based. Otherwise, we would have to encode it and hence face high
-cardinality problems. Moreover, based on our exploratory data analysis,
-we have decent confidence that tree-based models can figure out prices
-based on the existing features. The primary value of our models is to
-provide early Airbnb users with reasonable prices on their listings so
-that they can get them up and running quickly and effectively. To
-maximize this value, we average the model predictions as an ensemble for
-the final predicted prices. For the same reason, we use mean absolute
-error as our performance metric instead of mean squared error because we
-want to optimize more for median than mean. Mean is more impacted by
-outliers than the median, and we think aiming for median rather than
-mean will produce more of a reasonable price for potential customers,
-efficiently paving the way to the new hosts’ first bookings.
+cardinality problems, which cannot be handled well by linear regression
+without further work such as feature selection adn regularization.
+Moreover, based on our exploratory data analysis, we have decent
+confidence that tree-based models can figure out prices based on the
+existing features. The primary value of our models is to provide early
+Airbnb users with reasonable prices on their listings so that they can
+get them up and running quickly and effectively. To maximize this value,
+we average the model predictions as an ensemble for the final predicted
+prices. For the same reason, we use mean absolute error as our
+performance metric instead of mean squared error because we want to
+optimize more for median than mean. Mean is more impacted by outliers
+than the median, and we think aiming for median rather than mean will
+produce more of a reasonable price for potential customers, efficiently
+paving the way to the new hosts’ first bookings.
 
 # Our modelling result
 
@@ -164,15 +166,16 @@ averaged their predictions to produce the final productions. We derived
 all models with some degree of hyperparameter tuning. The Random Forest
 and XGBoost regressors both took considerably longer to train than the
 LightGBM regressor, and that is why we limited their combinations of
-hyperparameters for tuning due to our time constraint.
+hyperparameters for tuning due to our time
+constraint.
 
-|                    | mean\_absolute\_error |
-| ------------------ | --------------------: |
-| Median Null Model  |              83.20115 |
-| Random Forest      |              65.35503 |
-| XGBoost            |              65.07994 |
-| LightGBM           |              65.79250 |
-| Average Ensembling |              63.81340 |
+|                    | train\_mean\_absolute\_error | test\_mean\_absolute\_error |
+| ------------------ | ---------------------------: | --------------------------: |
+| Median Null Model  |                     84.31749 |                    83.20462 |
+| Random Forest      |                     46.71028 |                    65.35255 |
+| XGBoost            |                     53.08115 |                    65.45117 |
+| LightGBM           |                     64.04590 |                    65.79250 |
+| Average Ensembling |                     53.26979 |                    63.93848 |
 
 Table 2. Mean Absolute Errors
 
@@ -181,21 +184,27 @@ comparable results and are all an obvious upgrade over the median null
 model. Moreover, the ensemble has a decent performance improvement over
 the base models.
 
+We deem the potential of overfitting to be quite low on all the models
+because their training and test errors are close enough to not arise the
+suspicion of overfitting. Especially for the ensembled result due to not
+relying on a single model, we are confident that our model should be
+solid for predicting with new data.
+
 Let us look at the feature importances of different
 models.
 
 |                                   | Random.Forest |   XGBoost |  LightGBM |
 | --------------------------------- | ------------: | --------: | --------: |
-| neighbourhood\_group              |     0.0034056 | 0.0819480 | 0.0028571 |
-| neighbourhood                     |     0.0758472 | 0.0756090 | 0.0564286 |
-| latitude                          |     0.1745416 | 0.0715075 | 0.1557143 |
-| longitude                         |     0.2883058 | 0.3574286 | 0.1507143 |
-| room\_type                        |     0.1269123 | 0.1677694 | 0.0428571 |
-| minimum\_nights                   |     0.0724870 | 0.0543865 | 0.1814286 |
-| number\_of\_reviews               |     0.0271936 | 0.0304228 | 0.0621429 |
-| reviews\_per\_month               |     0.0460307 | 0.0404714 | 0.0678571 |
-| calculated\_host\_listings\_count |     0.0848438 | 0.0784767 | 0.1300000 |
-| availability\_365                 |     0.1004325 | 0.0419801 | 0.1500000 |
+| neighbourhood\_group              |     0.0041310 | 0.0949551 | 0.0028571 |
+| neighbourhood                     |     0.0778010 | 0.0848993 | 0.0564286 |
+| latitude                          |     0.1714138 | 0.0796917 | 0.1557143 |
+| longitude                         |     0.2888752 | 0.2837764 | 0.1507143 |
+| room\_type                        |     0.1269481 | 0.1764086 | 0.0428571 |
+| minimum\_nights                   |     0.0717192 | 0.0540017 | 0.1814286 |
+| number\_of\_reviews               |     0.0272069 | 0.0444173 | 0.0621429 |
+| reviews\_per\_month               |     0.0453395 | 0.0416108 | 0.0678571 |
+| calculated\_host\_listings\_count |     0.0856931 | 0.0971779 | 0.1300000 |
+| availability\_365                 |     0.1008723 | 0.0430610 | 0.1500000 |
 
 Table 3. Feature Importance
 
@@ -349,6 +358,13 @@ Year.” *The New York Times*. The New York Times.
 McKinney, Wes. 2010. “Data Structures for Statistical Computing in
 Python.” In *Proceedings of the 9th Python in Science Conference*,
 edited by Stéfan van der Walt and Jarrod Millman, 51–56.
+
+</div>
+
+<div id="ref-selenium">
+
+Muthukadan, Baiju. 2019. *Selenium with Python*.
+<https://github.com/baijum/selenium-python>.
 
 </div>
 
