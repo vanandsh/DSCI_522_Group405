@@ -36,22 +36,23 @@ directory of this project:
 ## Dependencies
 
   - Python 3.7.3 and Python Packages:
-      - docopt==0.6.2  
-      - requests==2.22.0  
-      - pandas==0.24.2  
-      - numpy==1.16.4  
-      - sklearn==0.21.2  
-      - lightgbm==2.3.1  
-      - xgboost==0.90  
+      - docopt==0.6.2
+      - requests==2.22.0
+      - pandas==0.24.2
+      - numpy==1.16.4
+      - sklearn==0.21.2
+      - lightgbm==2.3.1
+      - xgboost==0.90
       - altair==3.2.0
       - os==3.7.3
       - schema==0.7.1
+      - selenium==3.141.0
   - R version 3.6.2 and R packages:
-      - docopt==0.6.1  
-      - tidyverse==1.2.1  
-      - GGally==1.4.0  
-      - gridExtra==2.3  
-      - knitr==1.27.2  
+      - docopt==0.6.1
+      - tidyverse==1.2.1
+      - GGally==1.4.0
+      - gridExtra==2.3
+      - knitr==1.27.2
   - GNU Make 3.81
 
 # References
