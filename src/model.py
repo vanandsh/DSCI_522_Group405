@@ -47,17 +47,20 @@ tuning_parameter_map = {
       'max_depth': [10, 50],
       'min_samples_split': [5, 20],
       'n_estimators': [600, 1500],
-      'criterion': ['mse']
+      'criterion': ['mse'],
+      'random_state': [0]
     },
     'xgboost': {
       'max_depth': [5, 7, 10],
       'colsample_bytree': [0.6, 0.7, 0.8],
-      'n_estimators': [500, 1000]
+      'n_estimators': [500, 1000],
+      'random_state': [0]
     },
     'lightGBM': {
       'min_data_in_leaf': [100, 300, 500, 1000, 1500],
       'num_leaves': [15, 30, 40, 50, 60],
-      'max_depth': [15, 30, 45]
+      'max_depth': [15, 30, 45],
+      'random_state': [0]
     }
 }
 
@@ -181,22 +184,30 @@ def save_feature_importance_table(save_to, models, columns):
         save_to + '/feature_importance_table.csv'
     )
 
+def get_model_performance(models, X, y)
+    return [
+      mean_absolute_error(
+        y,
+        DummyRegressor(strategy='median').fit(X, y).predict(X)
+      ),
+      mean_absolute_error(y, models[0].predict(X)),
+      mean_absolute_error(y, models[1].predict(X)),
+      mean_absolute_error(y, models[2].predict(X)),
+      mean_absolute_error(y, average_ensemble_models(models, X))
+    ]
+
 # Output the model performances in terms of mean absolute error on a table
-def save_model_performance_table(save_to, models, X, y):
-    test_mean_absolute_error_df = pd.DataFrame({
-      'mean_absolute_error': [
-        mean_absolute_error(
-            y,
-            DummyRegressor(strategy='median').fit(X, y).predict(X)
-        ),
-        mean_absolute_error(y, models[0].predict(X)),
-        mean_absolute_error(y, models[1].predict(X)),
-        mean_absolute_error(y, models[2].predict(X)),
-        mean_absolute_error(y, average_ensemble_models(models, X)),
-      ]
+def save_model_performance_table(save_to, models, X_train, y_train, X_test, y_test):
+    mean_absolute_error_df = pd.DataFrame({
+      'train_mean_absolute_error': get_model_performance(
+        models, X_train, y_train
+      ),
+      'test_mean_absolute_error': get_model_performance(
+        models, X_test, y_test
+      )
     })
 
-    test_mean_absolute_error_df.index = [
+    mean_absolute_error_df.index = [
         'Median Null Model',
         'Random Forest',
         'XGBoost',
@@ -204,10 +215,9 @@ def save_model_performance_table(save_to, models, X, y):
         'Average Ensembling'
     ]
 
-    test_mean_absolute_error_df.to_csv(
+    mean_absolute_error_df.to_csv(
         save_to + '/mean_absolute_error_table.csv'
     )
-
 
 def main(source_file_location, target_location):
     train_file = source_file_location + "/train.csv"
@@ -223,7 +233,9 @@ def main(source_file_location, target_location):
     models = train_base_models(X_train, y_train)
     save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
     save_feature_importance_table(results_tables_folder, models, X_test.columns)
-    save_model_performance_table(results_tables_folder, models, X_test, y_test)
+    save_model_performance_table(
+        results_tables_folder, models, X_train, y_train, X_test, y_test
+    )
 
 if __name__ == "__main__":
     schema = Schema({
