@@ -211,7 +211,7 @@ def save_model_performance_table(save_to, models, X_train, y_train, X_test, y_te
         'Average Ensembling'
     ]
 
-    test_mean_absolute_error_df.to_csv(
+    mean_absolute_error_df.to_csv(
         save_to + '/mean_absolute_error_table.csv'
     )
 
