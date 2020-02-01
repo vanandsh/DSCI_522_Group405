@@ -46,17 +46,20 @@ tuning_parameter_map = {
       'max_depth': [10, 50],
       'min_samples_split': [5, 20],
       'n_estimators': [600, 1500],
-      'criterion': ['mse']
+      'criterion': ['mse'],
+      'random_state': [0]
     },
     'xgboost': {
       'max_depth': [5, 7, 10],
       'colsample_bytree': [0.6, 0.7, 0.8],
-      'n_estimators': [500, 1000]
+      'n_estimators': [500, 1000],
+      'random_state': [0]
     },
     'lightGBM': {
       'min_data_in_leaf': [100, 300, 500, 1000, 1500],
       'num_leaves': [15, 30, 40, 50, 60],
-      'max_depth': [15, 30, 45]
+      'max_depth': [15, 30, 45],
+      'random_state': [0]
     }
 }
 
