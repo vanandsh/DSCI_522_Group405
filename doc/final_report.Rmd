@@ -82,14 +82,6 @@ The mean price per night per night based by room type is as we would have expect
 
 From the different neighbourhoods, Manhattan is the most expensive, while the Bronx is the cheapest. We expect that neighbourhood group and type of room will be important features in predicting price.
 
-We summarize the differences in a room type in a certain neighbourhood group in a table where the number of listings, the mean price per night and the maximum price per night are shown. 
-
-
-```{r summary-table, echo=FALSE, message=FALSE}
-table_1 <- read_csv("../results/tables/summary-table.csv")
-kable(table_1, caption = "Table 1. Summary of number of listings, mean price and maximum price for Airbnb's in New York in 2019.")
-```
-
 
 # Our chosen models, metric and why
 
@@ -100,8 +92,10 @@ For our prediction, we have chosen Random Forest, XGBoost, and LightGBM as our m
 We built three models, Random Forest, LightGBM, and XGBoost, and averaged their predictions to produce the final productions. We derived all models with some degree of hyperparameter tuning. The Random Forest and XGBoost regressors both took considerably longer to train than the LightGBM regressor, and that is why we limited their combinations of hyperparameters for tuning due to our time constraint. 
 
 ```{r model mean absolute error, echo=FALSE}
-table_2 <- read.csv('../results/tables/mean_absolute_error_table.csv', row.names = 1)
-kable(table_2, caption = "Table 2. Mean Absolute Errors")
+table_1 <- read.csv('../results/tables/mean_absolute_error_table.csv', row.names = 1)
+table_1 <- table_1 %>% 
+  mutate_if(is.numeric, round, 2)
+kable(table_1, caption = "Table 1. Mean Absolute Errors")
 ```
 
 Even though the models have imbalanced hyperparameter tuning, they have comparable results and are all an obvious upgrade over the median null model. Moreover, the ensemble has a decent performance improvement over the base models. 
@@ -111,8 +105,10 @@ We deem the potential of overfitting to be quite low on all the models because t
 Let us look at the feature importances of different models. 
 
 ```{r feature importance, echo=FALSE}
-table_3 <- read.csv('../results/tables/feature_importance_table.csv', row.names = 1)
-kable(table_3, caption = "Table 3. Feature Importance")
+table_2 <- read.csv('../results/tables/feature_importance_table.csv', row.names = 1)
+table_2 <- table_2 %>% 
+  mutate_if(is.numeric, round, 3)
+kable(table_2, caption = "Table 2. Feature Importance")
 ```
 
 Except for longitude, no other feature seems to be consistently important for all models. For instance, the top three features for the Random Forest regressor also include latitude and room type, while for the LightGBM regressor, they are the number of days available per year, minimum nights and latitude. However, for our goal, interpreting feature importance is not our focus.
