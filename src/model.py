@@ -24,6 +24,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.dummy import DummyRegressor
 from sklearn.preprocessing import LabelEncoder
 import altair as alt
+import os
 
 from docopt import docopt
 try:
@@ -46,17 +47,20 @@ tuning_parameter_map = {
       'max_depth': [10, 50],
       'min_samples_split': [5, 20],
       'n_estimators': [600, 1500],
-      'criterion': ['mse']
+      'criterion': ['mse'],
+      'random_state': [0]
     },
     'xgboost': {
       'max_depth': [5, 7, 10],
       'colsample_bytree': [0.6, 0.7, 0.8],
-      'n_estimators': [500, 1000]
+      'n_estimators': [500, 1000],
+      'random_state': [0]
     },
     'lightGBM': {
       'min_data_in_leaf': [100, 300, 500, 1000, 1500],
       'num_leaves': [15, 30, 40, 50, 60],
-      'max_depth': [15, 30, 45]
+      'max_depth': [15, 30, 45],
+      'random_state': [0]
     }
 }
 
@@ -82,6 +86,8 @@ def preprocess(full_train, full_test):
       X_test[feature] = le.transform(X_test[feature])
 
     print('Data preprocessed!')
+
+    assert len(X_train.columns) == (len(full_train.columns) - 1)
 
     return [X_train, y_train, X_test, y_test]
 
@@ -111,17 +117,22 @@ def train_base_models(X_train, y_train):
 
         models.append(model)
 
+    assert len(models) == len(model_map.keys())
+
     return models
 
 # Average the base models as an ensemble
 def average_ensemble_models(models, X):
-    return np.average(
-        list(map(lambda x: x.predict(X), models)),
-        axis=0
-    )
+    predictions = list(map(lambda x: x.predict(X), models))
+
+    assert len(predictions) == len(models)
+
+    return np.average(predictions, axis=0)
 
 # Save the residual graphs from the models
 def save_ensemble_residual_graphs(save_to, models, X, y):
+    assert isinstance(save_to, str) == True
+
     ensemble_residual_df = pd.DataFrame({
       'true_price': y,
       'average_ensemble_residual': y - average_ensemble_models(models, X)
@@ -162,6 +173,8 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
         )
 
 def save_feature_importance_table(save_to, models, columns):
+    assert len(models) == 3
+
     feature_important_df = pd.DataFrame({
       'Random Forest':
           models[0].best_estimator_.feature_importances_,
@@ -180,22 +193,34 @@ def save_feature_importance_table(save_to, models, columns):
         save_to + '/feature_importance_table.csv'
     )
 
+def get_model_performance(models, X, y):
+    assert len(models) == 3
+
+    return [
+      mean_absolute_error(
+        y,
+        DummyRegressor(strategy='median').fit(X, y).predict(X)
+      ),
+      mean_absolute_error(y, models[0].predict(X)),
+      mean_absolute_error(y, models[1].predict(X)),
+      mean_absolute_error(y, models[2].predict(X)),
+      mean_absolute_error(y, average_ensemble_models(models, X))
+    ]
+
 # Output the model performances in terms of mean absolute error on a table
-def save_model_performance_table(save_to, models, X, y):
-    test_mean_absolute_error_df = pd.DataFrame({
-      'mean_absolute_error': [
-        mean_absolute_error(
-            y,
-            DummyRegressor(strategy='median').fit(X, y).predict(X)
-        ),
-        mean_absolute_error(y, models[0].predict(X)),
-        mean_absolute_error(y, models[1].predict(X)),
-        mean_absolute_error(y, models[2].predict(X)),
-        mean_absolute_error(y, average_ensemble_models(models, X)),
-      ]
+def save_model_performance_table(save_to, models, X_train, y_train, X_test, y_test):
+    mean_absolute_error_df = pd.DataFrame({
+      'train_mean_absolute_error': get_model_performance(
+        models, X_train, y_train
+      ),
+      'test_mean_absolute_error': get_model_performance(
+        models, X_test, y_test
+      )
     })
 
-    test_mean_absolute_error_df.index = [
+    assert len(mean_absolute_error_df.index) == 5
+
+    mean_absolute_error_df.index = [
         'Median Null Model',
         'Random Forest',
         'XGBoost',
@@ -203,10 +228,9 @@ def save_model_performance_table(save_to, models, X, y):
         'Average Ensembling'
     ]
 
-    test_mean_absolute_error_df.to_csv(
+    mean_absolute_error_df.to_csv(
         save_to + '/mean_absolute_error_table.csv'
     )
-
 
 def main(source_file_location, target_location):
     train_file = source_file_location + "/train.csv"
@@ -222,7 +246,9 @@ def main(source_file_location, target_location):
     models = train_base_models(X_train, y_train)
     save_ensemble_residual_graphs(results_plots_folder, models, X_test, y_test)
     save_feature_importance_table(results_tables_folder, models, X_test.columns)
-    save_model_performance_table(results_tables_folder, models, X_test, y_test)
+    save_model_performance_table(
+        results_tables_folder, models, X_train, y_train, X_test, y_test
+    )
 
 if __name__ == "__main__":
     schema = Schema({
@@ -234,7 +260,7 @@ if __name__ == "__main__":
         )
     })
     try:
-        args = schema.validate(args)
+        args = schema.validate(opt)
     except SchemaError as e:
         exit(e)
 

@@ -17,7 +17,7 @@ library(png)
 
 # Summary
 
-In this project, our team attempted to predict Airbnb prices in New York by testing several tree-based algorithms and finding the best performing model. The models used in this project were: Random Forest, XGBoost, LightGBM and an average ensembling of the three algorithms, and evaluated by Mean Absolute Error. The average ensembling of Random Forest, XGBoost and LightGBM was the best performing model with a Mean Absolute Error of $63.81.
+In this project, our team attempted to predict Airbnb prices in New York by testing several tree-based algorithms and finding the best performing model. The models used in this project were: Random Forest, XGBoost, LightGBM and an average ensembling of the three algorithms, and evaluated by Mean Absolute Error. The average ensembling of Random Forest, XGBoost and LightGBM was the best performing model with a Mean Absolute Error of $63.94.
 
 # Introduction
 
@@ -34,23 +34,22 @@ The Airbnb data has 16 variables, where 11 are numerical and 5 are categorical.
 
 Variables:
 
-- id
-- name
-- availability_365
-- calculated_host_listings_count
-- df_index
-- host_id
-- host_name
-- latitude
-- longitude
-- minimum_nights
-- neighbourhood
-- neighbourhood_group
-- number_of_reviews  
-- price (response variable)
-- reviews_per_month
-- room_type
-- last_review
+- **id:** Integer representing listing identification number.  
+- **name:** The title of the listing.  
+- **availability_365:** The number of days in the year that the listing is available to book.  
+- **calculated_host_listings_count:** The total number of listings the host of the listing has.  
+- **host_id:** Integer representing the host's identification number.  
+- **host_name:** First name(s) of host(s).  
+- **latitude:** The latitude of location of listing.  
+- **longitude:** The longitude of location of listing.  
+- **minimum_nights:** The minimum nights a user must book the listing.  
+- **neighbourhood:** The neighbourhood the listing is in.  
+- **neighbourhood_group:** The borough the listing is in. (The 5 boroughs of New York are Brooklyn, Manhattan, the Bronx, Staten Island and Queens).   
+- **number_of_reviews:** The number of reviews the listing has.  
+- **price (response variable):** The per night price of the listing.  
+- **reviews_per_month:** The number of reviews the listing has per month.  
+- **room_type:** The type of room of the listing. (The 3 options are: Entire home/apartment, Private room and Shared room).  
+- **last_review:** The date of the last review posted of the listing.  
 
 We dropped 'id','name', 'host_id', 'host_name','last_review' as they do not provide any insight on the price of a listing. To standardize the data, we imputed values by replacing NaNs with zeros wherever required. 
 
@@ -94,7 +93,7 @@ kable(table_1, caption = "Table 1. Summary of number of listings, mean price and
 
 # Our chosen models, metric and why
 
-For our prediction, we have chosen Random Forest, XGBoost, and LightGBM as our models; also, we have picked mean absolute error as our metric and average ensembling as our final prediction. We have decided to pick only ensemble tree-based algorithms because they generally have better predictive performances than other regressors, such as linear regression. Furthermore, the feature, neighbourhood, has over 200 categories, and the only models that can process it with labels are tree-based. Otherwise, we would have to encode it and hence face high cardinality problems. Moreover, based on our exploratory data analysis, we have decent confidence that tree-based models can figure out prices based on the existing features. The primary value of our models is to provide early Airbnb users with reasonable prices on their listings so that they can get them up and running quickly and effectively. To maximize this value, we average the model predictions as an ensemble for the final predicted prices. For the same reason, we use mean absolute error as our performance metric instead of mean squared error because we want to optimize more for median than mean. Mean is more impacted by outliers than the median, and we think aiming for median rather than mean will produce more of a reasonable price for potential customers, efficiently paving the way to the new hosts' first bookings.
+For our prediction, we have chosen Random Forest, XGBoost, and LightGBM as our models; also, we have picked mean absolute error as our metric and average ensembling as our final prediction. We have decided to pick only ensemble tree-based algorithms because they generally have better predictive performances than other regressors, such as linear regression. Furthermore, the feature, neighbourhood, has over 200 categories, and the only models that can process it with labels are tree-based. Otherwise, we would have to encode it and hence face high cardinality problems, which cannot be handled well by linear regression without further work such as feature selection adn regularization. Moreover, based on our exploratory data analysis, we have decent confidence that tree-based models can figure out prices based on the existing features. The primary value of our models is to provide early Airbnb users with reasonable prices on their listings so that they can get them up and running quickly and effectively. To maximize this value, we average the model predictions as an ensemble for the final predicted prices. For the same reason, we use mean absolute error as our performance metric instead of mean squared error because we want to optimize more for median than mean. Mean is more impacted by outliers than the median, and we think aiming for median rather than mean will produce more of a reasonable price for potential customers, efficiently paving the way to the new hosts' first bookings.
 
 # Our modelling result
 
@@ -106,6 +105,8 @@ kable(table_2, caption = "Table 2. Mean Absolute Errors")
 ```
 
 Even though the models have imbalanced hyperparameter tuning, they have comparable results and are all an obvious upgrade over the median null model. Moreover, the ensemble has a decent performance improvement over the base models. 
+
+We deem the potential of overfitting to be quite low on all the models because their training and test errors are close enough to not arise the suspicion of overfitting. Especially for the ensembled result due to not relying on a single model, we are confident that our model should be solid for predicting with new data.
 
 Let us look at the feature importances of different models. 
 
