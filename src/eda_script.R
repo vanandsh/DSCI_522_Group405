@@ -14,25 +14,45 @@ Options:
 
 library(docopt)
 library(tidyverse)
-library(GGally)
+library(reshape2)
 library(gridExtra)
 
 main <- function(input, output) {
   
   # test to check that csv is inputted 
   if (substr(input, (nchar(input)+1)-3 ,nchar(input)) != "csv"){
-    stop("Must input an Rmd file")
+    stop("Must input an csv file")
   }
   training_data  <- read_csv(input)
   
   # Correlation plot
-  corr_plot  <- training_data  %>%
-    select(-neighbourhood_group, -neighbourhood, -room_type, -latitude, -longitude )  %>%
-    rename(no_host_listgs = calculated_host_listings_count )  %>%
-    ggpairs() +
-    theme(strip.text.x = element_text(size = 8),
-          strip.text.y = element_text(size = 8),
-          axis.text.x = element_text(angle=90))
+  cors  <- training_data  %>%
+    select(-neighbourhood_group, -neighbourhood, -room_type, -latitude, -longitude )  %>% 
+    cor()
+  
+  get_lower_tri<-function(cormat){
+    cormat[upper.tri(cormat)] <- NA
+    return(cormat)
+  }
+  # Get upper triangle of the correlation matrix
+  get_upper_tri <- function(cormat){
+    cormat[lower.tri(cormat)]<- NA
+    return(cormat)
+  }
+  
+  upper_tri  <- get_upper_tri(cors)
+  cors  <- melted_cormat <- melt(upper_tri, na.rm = TRUE)
+  
+  corr_plot  <- ggplot(data = cors, aes(Var2, Var1, fill = value))+
+    geom_tile(color = "white")+
+    scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                         midpoint = 0, limit = c(-1,1), space = "Lab", 
+                         name="Pearson\nCorrelation") +
+    theme_minimal()+ 
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                     size = 12, hjust = 1))+
+    coord_fixed() +
+    labs(x = "", y = "")
 
   # save plot (change file path/name if necessary)
   # ggsave('results/plots/01_corr-plot.png', plot = corr_plot)
@@ -60,23 +80,23 @@ main <- function(input, output) {
     ggplot(., aes(x= reorder(room_type, -mean_price), y = mean_price)) +
     geom_bar(stat = 'identity', fill = 'rosybrown') +
     labs(x = 'Room type', y = 'Dollars (USD)', title = 'Mean Price per Night for each Room Type') + 
-    theme(plot.title = element_text(hjust = 0.5, size = 12),
-          axis.text.x = element_text(size = 7),
-          axis.text.y = element_text(size = 7),
-          axis.title.x = element_text(size = 9),
-          axis.title.y = element_text(size = 9))
+    theme(plot.title = element_text(hjust = 0.5, size = 14),
+          axis.text.x = element_text(size = 10),
+          axis.text.y = element_text(size = 10),
+          axis.title.x = element_text(size = 12),
+          axis.title.y = element_text(size = 12))
   
   neighb_price <- training_data  %>% 
     group_by(neighbourhood_group)  %>% 
     summarize(mean_price = mean(price))  %>% 
     ggplot(. , aes(x = reorder(neighbourhood_group, -mean_price), y = mean_price)) +
     geom_bar(stat = 'identity', fill = 'steelblue') +
-    labs(x = 'Neighbourhood Group', y = 'Dollars (USD)', title = 'Mean Price per Night of Listings per Neighbourhood Group') + 
-    theme(plot.title = element_text(hjust = 0.5, size = 9),
-          axis.text.x = element_text(size = 7),
-          axis.text.y = element_text(size = 7),
-          axis.title.x = element_text(size = 9),
-          axis.title.y = element_text(size = 9))
+    labs(x = 'Borough', y = 'Dollars (USD)', title = 'Mean Price per Night per Borough') + 
+    theme(plot.title = element_text(hjust = 0.5, size = 14),
+          axis.text.x = element_text(size = 10),
+          axis.text.y = element_text(size = 10),
+          axis.title.x = element_text(size = 12),
+          axis.title.y = element_text(size = 12))
   
   
   # arranges plot in 1X2 grid
@@ -86,23 +106,6 @@ main <- function(input, output) {
   save_to = paste0(output,"/plots/categorical-plots.png")
   ggsave(save_to, plot = categorical_plots, width = 9, height = 6)
   
-  # Summary table for neighb group, room and price
-  summary_table  <- training_data  %>% 
-    group_by(neighbourhood_group, room_type)  %>% 
-    summarize(Listings_Count = n(),
-              Mean_Price = round(mean(price),2),
-              Max_Price = max(price))   %>% 
-    rename(`Neighbourhood Group` = neighbourhood_group, 
-           `Room Type` = room_type, 
-           `Number of Listings` = Listings_Count,
-           `Mean Price per Night` = Mean_Price,
-           `Max Price per Night` = Max_Price)
-  
-  
-  save_to = paste0(output,"/tables/summary-table.csv")
-  write.csv(summary_table, file = save_to,  row.names = FALSE)
-
 }
-
 opt <- docopt(doc)
 main(opt[['--source_file']], opt[['--target_location']])
