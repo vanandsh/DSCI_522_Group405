@@ -50,7 +50,7 @@ directory of this project:
   - R version 3.6.2 and R packages:
       - docopt==0.6.1
       - tidyverse==1.2.1
-      - GGally==1.4.0
+      - reshape2==1.4.3
       - gridExtra==2.3
       - knitr==1.27.2
   - GNU Make 3.81  
