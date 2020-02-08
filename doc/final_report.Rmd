@@ -92,9 +92,13 @@ For our prediction, we have chosen Random Forest, XGBoost, and LightGBM as our m
 We built three models, Random Forest, LightGBM, and XGBoost, and averaged their predictions to produce the final productions. We derived all models with some degree of hyperparameter tuning. The Random Forest and XGBoost regressors both took considerably longer to train than the LightGBM regressor, and that is why we limited their combinations of hyperparameters for tuning due to our time constraint. 
 
 ```{r model mean absolute error, echo=FALSE}
-table_1 <- read.csv('../results/tables/mean_absolute_error_table.csv', row.names = 1)
-table_1 <- table_1 %>% 
+error_table <- read.csv('../results/tables/mean_absolute_error_table.csv', row.names = 1)
+
+table_1 <- error_table %>% 
   mutate_if(is.numeric, round, 2)
+
+rownames(table_1) <- rownames(error_table)
+
 kable(table_1, caption = "Table 1. Mean Absolute Errors")
 ```
 
@@ -105,9 +109,11 @@ We deem the potential of overfitting to be quite low on all the models because t
 Let us look at the feature importances of different models. 
 
 ```{r feature importance, echo=FALSE}
-table_2 <- read.csv('../results/tables/feature_importance_table.csv', row.names = 1)
-table_2 <- table_2 %>% 
+feat_import_table <- read.csv('../results/tables/feature_importance_table.csv', row.names = 1)
+table_2 <- feat_import_table %>% 
   mutate_if(is.numeric, round, 3)
+
+rownames(table_2) <- rownames(feat_import_table)
 kable(table_2, caption = "Table 2. Feature Importance")
 ```
 

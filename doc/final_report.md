@@ -140,15 +140,16 @@ averaged their predictions to produce the final productions. We derived
 all models with some degree of hyperparameter tuning. The Random Forest
 and XGBoost regressors both took considerably longer to train than the
 LightGBM regressor, and that is why we limited their combinations of
-hyperparameters for tuning due to our time constraint.
+hyperparameters for tuning due to our time
+constraint.
 
-| train\_mean\_absolute\_error | test\_mean\_absolute\_error |
-| ---------------------------: | --------------------------: |
-|                        84.32 |                       83.20 |
-|                        46.71 |                       65.35 |
-|                        53.08 |                       65.45 |
-|                        64.05 |                       65.79 |
-|                        53.27 |                       63.94 |
+|                    | train\_mean\_absolute\_error | test\_mean\_absolute\_error |
+| ------------------ | ---------------------------: | --------------------------: |
+| Median Null Model  |                        84.32 |                       83.20 |
+| Random Forest      |                        46.71 |                       65.35 |
+| XGBoost            |                        53.08 |                       65.45 |
+| LightGBM           |                        64.05 |                       65.79 |
+| Average Ensembling |                        53.27 |                       63.94 |
 
 Table 1. Mean Absolute Errors
 
@@ -163,20 +164,21 @@ suspicion of overfitting. Especially for the ensembled result due to not
 relying on a single model, we are confident that our model should be
 solid for predicting with new data.
 
-Let us look at the feature importances of different models.
+Let us look at the feature importances of different
+models.
 
-| Random.Forest | XGBoost | LightGBM |
-| ------------: | ------: | -------: |
-|         0.004 |   0.095 |    0.003 |
-|         0.078 |   0.085 |    0.056 |
-|         0.171 |   0.080 |    0.156 |
-|         0.289 |   0.284 |    0.151 |
-|         0.127 |   0.176 |    0.043 |
-|         0.072 |   0.054 |    0.181 |
-|         0.027 |   0.044 |    0.062 |
-|         0.045 |   0.042 |    0.068 |
-|         0.086 |   0.097 |    0.130 |
-|         0.101 |   0.043 |    0.150 |
+|                                   | Random.Forest | XGBoost | LightGBM |
+| --------------------------------- | ------------: | ------: | -------: |
+| neighbourhood\_group              |         0.004 |   0.095 |    0.003 |
+| neighbourhood                     |         0.078 |   0.085 |    0.056 |
+| latitude                          |         0.171 |   0.080 |    0.156 |
+| longitude                         |         0.289 |   0.284 |    0.151 |
+| room\_type                        |         0.127 |   0.176 |    0.043 |
+| minimum\_nights                   |         0.072 |   0.054 |    0.181 |
+| number\_of\_reviews               |         0.027 |   0.044 |    0.062 |
+| reviews\_per\_month               |         0.045 |   0.042 |    0.068 |
+| calculated\_host\_listings\_count |         0.086 |   0.097 |    0.130 |
+| availability\_365                 |         0.101 |   0.043 |    0.150 |
 
 Table 2. Feature Importance
 
