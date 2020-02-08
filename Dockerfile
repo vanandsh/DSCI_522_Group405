@@ -13,6 +13,8 @@ RUN Rscript -e "install.packages('gridExtra')"
 RUN Rscript -e "install.packages('reshape2')"
 RUN Rscript -e "install.packages('kableExtra')"
 RUN Rscript -e "install.packages('tidyverse')"
+RUN Rscript -e "install.packages('png')"
+RUN Rscript -e "install.packages('rmarkdown')"
     
 # install python packages
 RUN /opt/conda/bin/conda install -y -c anaconda docopt
