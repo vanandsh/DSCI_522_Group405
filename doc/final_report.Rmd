@@ -117,18 +117,12 @@ kable(table_3, caption = "Table 3. Feature Importance")
 
 Except for longitude, no other feature seems to be consistently important for all models. For instance, the top three features for the Random Forest regressor also include latitude and room type, while for the LightGBM regressor, they are the number of days available per year, minimum nights and latitude. However, for our goal, interpreting feature importance is not our focus.
 
-Let us look at the ensemble residuals on the test set.
+Let us look at the ensemble residuals on the test set and their distribution.
 
 ```{r ensemable residual plot, echo=FALSE}
-knitr::include_graphics('../results/plots/ensemble_residual_plot.png')
+knitr::include_graphics('../results/plots/model_result_charts.png')
 ```
-Figure 4. Residuals for average ensembling  
-
-
-```{r ensemable residual distribution, echo=FALSE}
-knitr::include_graphics('../results/plots/ensemble_residual_distribution.png')
-```
-Figure 5. Distribution of residuals average ensembling    
+Figure 4. Model results
 
 <br><br>
 The residuals look to follow a normal distribution with a few big residuals spread along the high prices. We do not quite care about those big residuals over high prices because we intend our model to estimate the median. In particular, we do not want our model to be affected or swayed by high prices by too much since pulling the predictions towards that direction will hinder the listings' ability to get bookings quickly and hence discourage new hosts from maintaining those listings. In conclusion, we believe our ensemble has done its job effectively.
