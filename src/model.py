@@ -170,7 +170,7 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
     )
 
     with alt.data_transformers.enable('default'):
-        model_result_charts.save("../results/plots/model_result_charts.png")
+        model_result_charts.save(save_to + '/model_result_charts.png')
 
 def save_feature_importance_table(save_to, models, columns):
     assert len(models) == 3
