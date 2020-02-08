@@ -154,7 +154,7 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
       x=alt.X(
         'average_ensemble_residual',
         title='Average ensembling residual',
-        bin=alt.Bin(extent=[-1000, 1000], step=50)
+        bin=alt.Bin(extent=[-500, 500], step=25)
       ),
       y='count()'
     ).properties(
