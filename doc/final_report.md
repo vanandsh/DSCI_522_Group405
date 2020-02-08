@@ -108,32 +108,6 @@ From the different neighbourhoods, Manhattan is the most expensive,
 while the Bronx is the cheapest. We expect that neighbourhood group and
 type of room will be important features in predicting price.
 
-We summarize the differences in a room type in a certain neighbourhood
-group in a table where the number of listings, the mean price per night
-and the maximum price per night are
-shown.
-
-| Neighbourhood Group | Room Type       | Number of Listings | Mean Price per Night | Max Price per Night |
-| :------------------ | :-------------- | -----------------: | -------------------: | ------------------: |
-| Bronx               | Entire home/apt |                302 |               129.34 |                1000 |
-| Bronx               | Private room    |                524 |                62.27 |                 680 |
-| Bronx               | Shared room     |                 48 |                45.98 |                 165 |
-| Brooklyn            | Entire home/apt |               7661 |               178.00 |               10000 |
-| Brooklyn            | Private room    |               8086 |                75.89 |                7500 |
-| Brooklyn            | Shared room     |                342 |                50.91 |                 725 |
-| Manhattan           | Entire home/apt |              10595 |               250.77 |               10000 |
-| Manhattan           | Private room    |               6362 |               115.69 |                6500 |
-| Manhattan           | Shared room     |                375 |                89.02 |                1000 |
-| Queens              | Entire home/apt |               1675 |               145.26 |                2000 |
-| Queens              | Private room    |               2680 |                72.56 |               10000 |
-| Queens              | Shared room     |                160 |                69.14 |                1800 |
-| Staten Island       | Entire home/apt |                144 |               186.47 |                5000 |
-| Staten Island       | Private room    |                155 |                64.67 |                 300 |
-| Staten Island       | Shared room     |                  7 |                49.57 |                  95 |
-
-Table 1. Summary of number of listings, mean price and maximum price for
-Airbnb’s in New York in 2019.
-
 # Our chosen models, metric and why
 
 For our prediction, we have chosen Random Forest, XGBoost, and LightGBM
@@ -171,13 +145,13 @@ constraint.
 
 |                    | train\_mean\_absolute\_error | test\_mean\_absolute\_error |
 | ------------------ | ---------------------------: | --------------------------: |
-| Median Null Model  |                     84.31749 |                    83.20462 |
-| Random Forest      |                     46.71028 |                    65.35255 |
-| XGBoost            |                     53.08115 |                    65.45117 |
-| LightGBM           |                     64.04590 |                    65.79250 |
-| Average Ensembling |                     53.26979 |                    63.93848 |
+| Median Null Model  |                        84.32 |                       83.20 |
+| Random Forest      |                        46.71 |                       65.35 |
+| XGBoost            |                        53.08 |                       65.45 |
+| LightGBM           |                        64.05 |                       65.79 |
+| Average Ensembling |                        53.27 |                       63.94 |
 
-Table 2. Mean Absolute Errors
+Table 1. Mean Absolute Errors
 
 Even though the models have imbalanced hyperparameter tuning, they have
 comparable results and are all an obvious upgrade over the median null
@@ -193,20 +167,20 @@ solid for predicting with new data.
 Let us look at the feature importances of different
 models.
 
-|                                   | Random.Forest |   XGBoost |  LightGBM |
-| --------------------------------- | ------------: | --------: | --------: |
-| neighbourhood\_group              |     0.0041310 | 0.0949551 | 0.0028571 |
-| neighbourhood                     |     0.0778010 | 0.0848993 | 0.0564286 |
-| latitude                          |     0.1714138 | 0.0796917 | 0.1557143 |
-| longitude                         |     0.2888752 | 0.2837764 | 0.1507143 |
-| room\_type                        |     0.1269481 | 0.1764086 | 0.0428571 |
-| minimum\_nights                   |     0.0717192 | 0.0540017 | 0.1814286 |
-| number\_of\_reviews               |     0.0272069 | 0.0444173 | 0.0621429 |
-| reviews\_per\_month               |     0.0453395 | 0.0416108 | 0.0678571 |
-| calculated\_host\_listings\_count |     0.0856931 | 0.0971779 | 0.1300000 |
-| availability\_365                 |     0.1008723 | 0.0430610 | 0.1500000 |
+|                                   | Random.Forest | XGBoost | LightGBM |
+| --------------------------------- | ------------: | ------: | -------: |
+| neighbourhood\_group              |         0.004 |   0.095 |    0.003 |
+| neighbourhood                     |         0.078 |   0.085 |    0.056 |
+| latitude                          |         0.171 |   0.080 |    0.156 |
+| longitude                         |         0.289 |   0.284 |    0.151 |
+| room\_type                        |         0.127 |   0.176 |    0.043 |
+| minimum\_nights                   |         0.072 |   0.054 |    0.181 |
+| number\_of\_reviews               |         0.027 |   0.044 |    0.062 |
+| reviews\_per\_month               |         0.045 |   0.042 |    0.068 |
+| calculated\_host\_listings\_count |         0.086 |   0.097 |    0.130 |
+| availability\_365                 |         0.101 |   0.043 |    0.150 |
 
-Table 3. Feature Importance
+Table 2. Feature Importance
 
 Except for longitude, no other feature seems to be consistently
 important for all models. For instance, the top three features for the
@@ -391,15 +365,6 @@ Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 
 </div>
 
-<div id="ref-barret_schloerke_2016_166547">
-
-Schloerke, Barret, François Briatte, bigbeardesktop, Jason Crowley,
-justsomeone1001, Dianne Cook, Eduardo Ibanez, et al. 2016.
-*Ggobi/Ggally: GGally 1.3.0* (version v1.3.0). Zenodo.
-<https://doi.org/10.5281/zenodo.166547>.
-
-</div>
-
 <div id="ref-sherwood_2019">
 
 Sherwood, Harriet. 2019. “How Airbnb Took over the World.” *The
@@ -425,10 +390,18 @@ Scotts Valley, CA: CreateSpace.
 
 </div>
 
+<div id="ref-reshape2">
+
+Wickham, Hadley. 2007. “Reshaping Data with the reshape Package.”
+*Journal of Statistical Software* 21 (12): 1–20.
+<http://www.jstatsoft.org/v21/i12/>.
+
+</div>
+
 <div id="ref-tidyverse">
 
-Wickham, Hadley. 2017. *Tidyverse: Easily Install and Load the
-’Tidyverse’*. <https://CRAN.R-project.org/package=tidyverse>.
+———. 2017. *Tidyverse: Easily Install and Load the ’Tidyverse’*.
+<https://CRAN.R-project.org/package=tidyverse>.
 
 </div>
 
