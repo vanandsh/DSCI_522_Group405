@@ -27,8 +27,7 @@ results/plots/price-dist.png : data/train.csv data/test.csv src/eda_script.R
 # Run models and generate performance metrics and figures
 results/tables/feature_importance_table.csv \
 results/tables/mean_absolute_error_table.csv \
-results/plots/ensemble_residual_distribution.png \
-results/plots/ensemble_residual_plot.png : data/train.csv data/test.csv src/model.py
+results/plots/model_result_charts.png : data/train.csv data/test.csv src/model.py
 	python src/model.py --source_file_location="./data" --target_location="./results"
 
 	
@@ -36,7 +35,7 @@ results/plots/ensemble_residual_plot.png : data/train.csv data/test.csv src/mode
 doc/final_report.md : \
 results/tables/feature_importance_table.csv \
 results/tables/mean_absolute_error_table.csv \
-results/plots/ensemble_residual_distribution.png \
+results/plots/model_result_charts.png \
 results/tables/summary_table.csv \
 results/plots/categorical-plots.png \
 results/plots/corr-plot.png 
