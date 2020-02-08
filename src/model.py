@@ -144,7 +144,7 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
       x=alt.X('true_price', title='Price'),
       y=alt.Y('average_ensemble_residual', title='Average ensembling residual')
     ).properties(
-      width=850,
+      width=350,
       height=500
     ).properties(
       title='Average Ensembling Residuals on Test Data'
@@ -154,23 +154,23 @@ def save_ensemble_residual_graphs(save_to, models, X, y):
       x=alt.X(
         'average_ensemble_residual',
         title='Average ensembling residual',
-        bin=alt.Bin(extent=[-1200, 2000], step=5)
+        bin=alt.Bin(extent=[-500, 500], step=25)
       ),
       y='count()'
     ).properties(
-      width=850,
+      width=350,
       height=500
     ).properties(
       title='Ensembling Residual Distribution'
     )
 
+    model_result_charts = (residual_chart | residual_dist_chart).configure_axis(
+      labelFontSize=15,
+      titleFontSize=15
+    )
+
     with alt.data_transformers.enable('default'):
-        residual_chart.save(
-            save_to + '/ensemble_residual_plot.png'
-        )
-        residual_dist_chart.save(
-            save_to + '/ensemble_residual_distribution.png'
-        )
+        model_result_charts.save("../results/plots/model_result_charts.png")
 
 def save_feature_importance_table(save_to, models, columns):
     assert len(models) == 3
