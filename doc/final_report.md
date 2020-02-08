@@ -189,14 +189,11 @@ the LightGBM regressor, they are the number of days available per year,
 minimum nights and latitude. However, for our goal, interpreting feature
 importance is not our focus.
 
-Let us look at the ensemble residuals on the test set.
+Let us look at the ensemble residuals on the test set and their
+distribution.
 
-<img src="../results/plots/ensemble_residual_plot.png" width="916" />
-Figure 4. Residuals for average
-ensembling
-
-<img src="../results/plots/ensemble_residual_distribution.png" width="900" />
-Figure 5. Distribution of residuals average ensembling
+<img src="../results/plots/model_result_charts.png" width="874" />
+Figure 4. Model results
 
 <br><br> The residuals look to follow a normal distribution with a few
 big residuals spread along the high prices. We do not quite care about
